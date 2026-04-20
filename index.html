@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TRADE WITH KHAN | Terminal v3</title>
+    <style>
+        /* THE "TRENDSPIDER" LOOK */
+        :root {
+            --bg: #0b0e11; --card: #161a1e; --border: #2b2f36;
+            --gold: #f0b90b; --bull: #00c076; --bear: #cf304a;
+            --text: #eaecef;
+        }
+
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
+
+        /* 1. AUTH SCREEN DESIGN */
+        #auth-screen {
+            position: fixed; inset: 0; background: var(--bg); z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .auth-card {
+            background: var(--card); padding: 40px; border-radius: 12px;
+            width: 85%; max-width: 400px; border: 1px solid var(--border); text-align: center;
+        }
+        .auth-card h1 { color: var(--gold); margin-bottom: 25px; letter-spacing: 2px; }
+        .auth-input {
+            width: 100%; padding: 15px; margin-bottom: 15px; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 6px; color: white;
+        }
+        .auth-btn {
+            width: 100%; padding: 16px; background: var(--gold); color: black;
+            border: none; border-radius: 6px; font-weight: bold; cursor: pointer;
+        }
+
+        /* 2. DASHBOARD DESIGN */
+        .terminal-header {
+            display: flex; justify-content: space-between; padding: 15px;
+            background: var(--card); border-bottom: 1px solid var(--border);
+        }
+        #chart-container { width: 100%; height: 50vh; background: var(--bg); position: relative; }
+        
+        .trade-controls {
+            display: flex; gap: 10px; padding: 15px; background: var(--card);
+            position: fixed; bottom: 0; width: 100%; box-sizing: border-box;
+        }
+        .btn-trade { flex: 1; padding: 18px; border: none; border-radius: 8px; font-weight: 800; color: white; }
+        .buy { background: var(--bull); }
+        .sell { background: var(--bear); }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div id="auth-screen">
+        <div class="auth-card">
+            <h1>TRADE WITH KHAN</h1>
+            <p style="color: #848e9c; margin-bottom: 20px;">Secure Terminal Login</p>
+            <input type="email" id="userEmail" class="auth-input" placeholder="Email Address">
+            <input type="password" id="userPass" class="auth-input" placeholder="Password">
+            <button class="auth-btn" onclick="startTerminal()">ENTER TERMINAL</button>
+            <p id="error-msg" style="color: var(--bear); font-size: 12px; margin-top: 15px;"></p>
+        </div>
+    </div>
+
+    <div id="main-terminal" class="hidden">
+        <div class="terminal-header">
+            <div>
+                <span style="font-size: 10px; color: #848e9c;">CONNECTED USER</span>
+                <div id="display-name" style="font-weight: bold; color: var(--gold);">Sarimul</div>
+            </div>
+            <div style="text-align: right;">
+                <span style="font-size: 10px; color: #848e9c;">LIVE BALANCE</span>
+                <div id="display-balance" style="font-size: 18px; font-weight: bold;">$1,000.00</div>
+            </div>
+        </div>
+
+        <div id="chart-container">
+            <canvas id="terminalCanvas"></canvas>
+        </div>
+
+        <div class="trade-controls">
+            <button class="btn-trade buy">BUY / LONG</button>
+            <button class="btn-trade sell">SELL / SHORT</button>
+        </div>
+    </div>
+
+    <script>
+        function startTerminal() {
+            // This is where we will check the Cloud ID/Password later
+            const email = document.getElementById('userEmail').value;
+            if(email.includes("@")) {
+                document.getElementById('auth-screen').classList.add('hidden');
+                document.getElementById('main-terminal').classList.remove('hidden');
+            } else {
+                document.getElementById('error-msg').innerText = "Please enter a valid User ID";
+            }
+        }
+    </script>
+</body>
+</html>
