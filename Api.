@@ -1,0 +1,11 @@
+/my-trading-dashboard (Main Folder)
+│
+├── api/
+│   └── index.py       <-- (Aapka Python login logic yahan rahega)
+│
+├── static/
+│   └── (CSS/JS files agar hain toh)
+│
+├── index.html         <-- (Aapka login page/frontend)
+├── requirements.txt   <-- (Framework ka naam: e.g., flask)
+└── vercel.json        <-- (Vercel configuration file)
