@@ -2,120 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TRADE WITH KHAN | Terminal v3.1</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRADE WITH KHAN - Cloud Terminal</title>
     <style>
-        :root {
-            --bg: #0b0e11; --card: #161a1e; --border: #2b2f36;
-            --gold: #f0b90b; --bull: #00c076; --bear: #cf304a;
-            --text: #eaecef;
-        }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; overflow: hidden; }
-        #auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 100; display: flex; align-items: center; justify-content: center; }
-        .auth-card { background: var(--card); padding: 40px; border-radius: 12px; width: 85%; max-width: 400px; border: 1px solid var(--border); text-align: center; }
-        .auth-card h1 { color: var(--gold); margin-bottom: 25px; letter-spacing: 2px; }
-        .auth-input { width: 100%; padding: 15px; margin-bottom: 15px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: white; }
-        .auth-btn { width: 100%; padding: 16px; background: var(--gold); color: black; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        .terminal-header { display: flex; justify-content: space-between; padding: 15px; background: var(--card); border-bottom: 1px solid var(--border); }
-        #chart-container { width: 100%; height: calc(100vh - 250px); background: var(--bg); position: relative; }
-        #terminalCanvas { display: block; width: 100%; height: 100%; }
-        .trade-controls { display: flex; gap: 10px; padding: 15px; background: var(--card); position: fixed; bottom: 0; width: 100%; box-sizing: border-box; }
-        .btn-trade { flex: 1; padding: 18px; border: none; border-radius: 8px; font-weight: 800; color: white; }
-        .buy { background: var(--bull); } .sell { background: var(--bear); }
-        .hidden { display: none !important; }
+        body { background-color: #121417; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background-color: #1c1f26; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h1 { color: #ffcc00; margin-bottom: 5px; }
+        p { color: #888; font-size: 14px; margin-bottom: 30px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 5px; border: 1px solid #333; background: #2a2e38; color: white; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background-color: #ffcc00; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background-color: #e6b800; }
+        .error { color: #ff4444; font-size: 13px; margin-bottom: 10px; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="auth-screen">
-        <div class="auth-card">
-            <h1>TRADE WITH KHAN</h1>
-            <p style="color: #848e9c; margin-bottom: 20px;">Cloud Terminal v3.1</p>
-            <input type="email" id="ksarimul2@gmail.com" class="auth-input" placeholder="ksarimul2@gmail.com">
-            <input type="password" id="Sarimul@a1" class="auth-input" placeholder="Password">
-            <button class="auth-btn" onclick="startTerminal()">CONNECT TO CLOUD</button>
-            <p id="error-msg" style="color: var(--bear); font-size: 12px; margin-top: 15px;"></p>
-        </div>
-    </div>
+<div class="login-card">
+    <h1>TRADE WITH KHAN</h1>
+    <p>Cloud Terminal v3.1</p>
+    
+    <div id="errorMessage" class="error">Invalid Email or Password</div>
 
-    <div id="main-terminal" class="hidden">
-        <div class="terminal-header">
-            <div>
-                <span style="font-size: 10px; color: #848e9c;">OPERATOR</span>
-                <div id="display-name" style="font-weight: bold; color: var(--gold);">Sarimul</div>
-            </div>
-            <div style="text-align: right;">
-                <span style="font-size: 10px; color: #848e9c;">LIVE PRICE</span>
-                <div id="live-price" style="font-size: 18px; font-weight: bold; color: var(--gold);">$0.00</div>
-            </div>
-        </div>
+    <form id="loginForm">
+        <input type="email" id="email" name="email" placeholder="ksarimul2@gmail.com" required>
+        <input type="password" id="password" name="password" placeholder="********" required>
+        <button type="submit">CONNECT TO CLOUD</button>
+    </form>
+</div>
 
-        <div id="chart-container">
-            <canvas id="terminalCanvas"></canvas>
-        </div>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('errorMessage');
 
-        <div class="trade-controls">
-            <button class="btn-trade buy" onclick="placeTrade('BUY')">BUY</button>
-            <button class="btn-trade sell" onclick="placeTrade('SELL')">SELL</button>
-        </div>
-    </div>
-
-    <script>
-        // --- 2. CLOUD CONFIG ---
-        const SB_URL = "PASTE_YOUR_PROJECT_URL_HERE"; // <--- PASTE URL HERE
-        const SB_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
-        const supabase = supabase.createClient(SB_URL, SB_KEY);
-
-        let price = 50000;
-        let candles = [];
-
-        async function startTerminal() {
-            const email = document.getElementById('userEmail').value;
-            const pass = document.getElementById('userPass').value;
-            const msg = document.getElementById('error-msg');
-
-            msg.innerText = "Authenticating...";
-
-            // Sign in or Sign up automatically
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password: pass });
-
-            if (error) {
-                const { error: regErr } = await supabase.auth.signUp({ email, password: pass });
-                if (regErr) msg.innerText = regErr.message;
-                else msg.innerText = "Check your email to confirm registration!";
-            } else {
-                document.getElementById('auth-screen').classList.add('hidden');
-                document.getElementById('main-terminal').classList.remove('hidden');
-                initChart();
-            }
+        // Frontend check for your specific credentials
+        if (email === "ksarimul2@gmail.com" && password === "Sarimul@a1") {
+            alert("Login Successful! Connecting to Terminal...");
+            // Yahan aap dashboard ka link dal sakte hain
+            window.location.href = "/dashboard.html"; 
+        } else {
+            errorDiv.style.display = 'block';
+            errorDiv.innerText = "Invalid Email or Password";
         }
+    });
+</script>
 
-        // --- 3. CHART ENGINE ---
-        function initChart() {
-            const canvas = document.getElementById('terminalCanvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-
-            function animate() {
-                price += (Math.random() - 0.5) * 20; // Constant movement
-                document.getElementById('live-price').innerText = "$" + price.toFixed(2);
-                
-                // Drawing logic
-                ctx.fillStyle = "#0b0e11";
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Add your candlestick drawing here
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        function placeTrade(side) {
-            console.log("Trade Placed: " + side + " at " + price);
-            // We will add the saveTradeToCloud logic in the next step!
-        }
-    </script>
 </body>
 </html>
