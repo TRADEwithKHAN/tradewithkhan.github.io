@@ -169,7 +169,8 @@
         document.querySelectorAll('.ui-box').forEach(b => b.classList.add('hidden'));
         document.getElementById(type + '-form').classList.remove('hidden');
     }
-    function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }function handleLogin() {
+    function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+   function handleLogin() {
     const emailInput = document.getElementById('loginEmail').value;
     const passInput = document.getElementById('loginPassword').value;
     const errorMsg = document.getElementById('loginError');
