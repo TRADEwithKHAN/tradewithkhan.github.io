@@ -11,17 +11,16 @@
             display: flex; justify-content: center; align-items: center;
             background: #050505; color: white; font-family: 'Inter', sans-serif;
             background-image: radial-gradient(circle at center, #1a1a00 0%, #050505 100%);
+            overflow: hidden;
         }
-        .container { text-align: center; animation: fadeIn 1.2s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        h1 { font-size: clamp(2rem, 8vw, 3.5rem); color: #FFD700; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; }
+        .container { text-align: center; }
+        h1 { font-size: clamp(1.8rem, 8vw, 3rem); color: #FFD700; margin-bottom: 40px; text-transform: uppercase; letter-spacing: 3px; font-weight: 900; text-shadow: 0 0 20px rgba(255, 215, 0, 0.2); }
         
         .btn-box { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
         .btn {
             padding: 16px 45px; font-size: 1rem; font-weight: 800;
             border-radius: 50px; cursor: pointer; transition: 0.4s;
-            text-transform: uppercase; letter-spacing: 1px; min-width: 180px;
+            text-transform: uppercase; letter-spacing: 1px; min-width: 170px;
         }
         .login { background: transparent; color: #FFD700; border: 2px solid #FFD700; }
         .reg { background: #FFD700; color: black; border: none; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2); }
@@ -29,8 +28,9 @@
 
         /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); z-index: 100; }
-        .box { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #FFD700; width: 90%; max-width: 350px; text-align: center; }
-        input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; font-size: 1rem; }
+        .box { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #FFD700; width: 90%; max-width: 340px; text-align: center; }
+        input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
+        input:focus { border-color: #FFD700; }
         .submit { width: 100%; padding: 15px; background: #FFD700; border: none; font-weight: 900; border-radius: 10px; cursor: pointer; font-size: 1rem; }
     </style>
 </head>
@@ -46,13 +46,13 @@
 
 <div id="modal" class="modal" onclick="hide()">
     <div id="login-f" class="box" onclick="event.stopPropagation()" style="display:none">
-        <h2 style="color:#FFD700; margin-bottom: 25px;">LOGIN</h2>
+        <h2 style="color:#FFD700; margin-bottom: 20px;">LOGIN</h2>
         <input type="email" id="le" placeholder="Email Address">
         <input type="password" id="lp" placeholder="Password">
-        <button class="submit" onclick="login()">ACCESS TERMINAL</button>
+        <button class="submit" onclick="login()">ENTER TERMINAL</button>
     </div>
     <div id="reg-f" class="box" onclick="event.stopPropagation()" style="display:none">
-        <h2 style="color:#FFD700; margin-bottom: 25px;">REGISTER</h2>
+        <h2 style="color:#FFD700; margin-bottom: 20px;">REGISTER</h2>
         <input type="email" id="re" placeholder="Your Email">
         <input type="password" id="rp" placeholder="Set Password">
         <button class="submit" onclick="register()">CREATE ACCOUNT</button>
@@ -60,7 +60,10 @@
 </div>
 
 <script>
-    const supabase = supabase.createClient('https://rsjgrotznorgavudjpsp.supabase.co', 'sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9');
+    // Supabase Setup
+    const supabaseUrl = 'https://rsjgrotznorgavudjpsp.supabase.co';
+    const supabaseKey = 'sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     function show(t) {
         document.getElementById('modal').style.display = 'flex';
@@ -70,21 +73,22 @@
     function hide() { document.getElementById('modal').style.display = 'none'; }
 
     async function register() {
-        const { error } = await supabase.auth.signUp({ 
-            email: document.getElementById('re').value, 
-            password: document.getElementById('rp').value 
-        });
-        if(error) alert(error.message); 
-        else alert("Registration Successful! Check your email for verification.");
+        const email = document.getElementById('re').value;
+        const password = document.getElementById('rp').value;
+        const { error } = await supabase.auth.signUp({ email, password });
+        if(error) alert(error.message);
+        else alert("Registration Successful! Check your email to verify (if enabled).");
     }
 
     async function login() {
-        const { error } = await supabase.auth.signInWithPassword({ 
-            email: document.getElementById('le').value, 
-            password: document.getElementById('lp').value 
-        });
-        if(error) alert(error.message); 
-        else window.location.href = "dashboard.html";
+        const email = document.getElementById('le').value;
+        const password = document.getElementById('lp').value;
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if(error) alert(error.message);
+        else {
+            alert("Login Successful!");
+            window.location.href = "dashboard.html"; 
+        }
     }
 </script>
 </body>
