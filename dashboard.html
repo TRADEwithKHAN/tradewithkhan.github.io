@@ -1,140 +1,261 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trade With Khan | Premium Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trade With Khan | Final Live V8</title>
     <style>
-        :root {
-            --bg: #050505;
-            --card: #111111;
-            --primary: #FFD700;
-            --green: #00FF88;
-            --red: #FF4444;
-            --text: #ffffff;
-            --muted: #888;
-        }
-
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 20px;
-        }
-
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; padding-bottom: 15px; margin-bottom: 25px; }
-        .logo { color: var(--primary); font-weight: bold; font-size: 1.2rem; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; max-width: 1200px; margin: 0 auto; }
+        * { box-sizing: border-box; touch-action: manipulation; }
+        body { background-color: #0b0e11; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
-        .card { background: var(--card); border-radius: 12px; padding: 20px; border: 1px solid #222; transition: 0.3s; }
-        .card:hover { border-color: var(--primary); }
-        h3 { margin-top: 0; color: var(--primary); font-size: 1.1rem; border-bottom: 1px solid #222; padding-bottom: 10px; }
+        .header { height: 50px; padding: 0 15px; background: #181a20; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b2f36; flex-shrink: 0; }
+        .logo-sq { width: 32px; height: 32px; border: 2px solid #f0b90b; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #f0b90b; font-size: 14px; }
 
-        /* Calculator Styles */
-        .calc-input { width: 100%; padding: 10px; margin: 8px 0; background: #000; border: 1px solid #333; color: #fff; border-radius: 5px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .asset-tabs { display: flex; background: #181a20; border-bottom: 1px solid #2b2f36; padding: 5px; gap: 8px; overflow-x: auto; flex-shrink: 0; }
+        .tab { padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; background: #2b3139; color: #848e9c; white-space: nowrap; border: 1px solid transparent; }
+        .tab.active { background: rgba(240, 185, 11, 0.1); color: #f0b90b; border: 1px solid #f0b90b; }
 
-        /* Game Styles */
-        #priceDisplay { font-size: 2.5rem; font-weight: bold; text-align: center; margin: 20px 0; font-family: monospace; }
-        .game-btns { display: flex; gap: 10px; }
-        .btn-buy { background: var(--green); flex: 1; }
-        .btn-sell { background: var(--red); flex: 1; }
+        .chart-window { flex-grow: 1; width: 100%; position: relative; background: #000; overflow: hidden; }
 
-        /* Product Card */
-        .product-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #1a1a1a; margin-bottom: 8px; border-radius: 6px; font-size: 0.9rem; }
-        .price-tag { color: var(--primary); font-weight: bold; }
+        .control-panel { background: #181a20; padding: 12px; border-top: 1px solid #2b2f36; flex-shrink: 0; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+        .box { background: #2b3139; padding: 6px; border-radius: 4px; border: 1px solid #474d57; }
+        .box label { font-size: 9px; color: #848e9c; display: block; text-transform: uppercase; }
+        .box input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 13px; padding-top: 2px; }
 
-        .soon { text-align: center; grid-column: 1 / -1; padding: 50px; color: var(--muted); letter-spacing: 3px; font-weight: bold; }
+        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .t-btn { border: none; padding: 14px; border-radius: 6px; font-weight: bold; color: white; font-size: 15px; cursor: pointer; }
+        .buy { background: #2ebd85; }
+        .sell { background: #f6465d; }
+
+        .data-area { height: 180px; background: #0b0e11; overflow-y: auto; padding: 10px; border-top: 1px solid #2b2f36; flex-shrink: 0; }
+        .section-title { font-size: 12px; color: #f0b90b; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 15px; }
+        th { text-align: left; color: #848e9c; border-bottom: 1px solid #2b2f36; padding-bottom: 5px; }
+        td { padding: 8px 0; border-bottom: 1px solid #1e2329; }
+        
+        /* New Action Buttons */
+        .action-btns { display: flex; gap: 5px; }
+        .btn-m { background: #f0b90b; color: black; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-weight: bold; font-size: 10px; }
+        .btn-x { background: #474d57; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; }
+
+        .pnl-up { color: #2ebd85; font-weight: bold; }
+        .pnl-down { color: #f6465d; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <div class="logo">TRADE WITH KHAN | TERMINAL</div>
-    <div style="font-size: 0.8rem; color: var(--green);">● LIVE CONNECTION</div>
+    <div class="header">
+        <div class="logo-sq">TWK</div>
+        <div id="wallet-balance" style="font-weight: bold; color: #ffffff;">Balance: $10,000.00</div>
+    </div>
+
+    <div class="asset-tabs">
+        <div class="tab active" onclick="switchMarket('BINANCE:BTCUSDT', 'BTCUSDT', this)">BTC/USDT</div>
+        <div class="tab" onclick="switchMarket('FX:EURUSD', 'EURUSD', this)">EUR/USD</div>
+        <div class="tab" onclick="switchMarket('OANDA:XAUUSD', 'XAUUSD', this)">GOLD (XAU)</div>
+    </div>
+
+    <div class="chart-window">
+        <div id="tv_chart_main" style="height: 100%; width: 100%;"></div>
+    </div>
+
+    <div class="control-panel">
+       
+    <div class="box">
+        <label>Leverage</label>
+        <input type="number" id="tLev" value="10" min="1" max="1000">
+    </div>
 </div>
 
-<div class="grid">
-    <div class="card">
-        <h3>Position Size Calculator</h3>
-        <p style="font-size: 0.8rem; color: var(--muted);">Calculate your quantity based on risk.</p>
-        <input type="number" id="cap" class="calc-input" placeholder="Capital (e.g. 50000)">
-        <input type="number" id="risk" class="calc-input" placeholder="Risk per Trade % (e.g. 2)">
-        <input type="number" id="sl" class="calc-input" placeholder="Stop Loss Points (e.g. 10)">
-        <button class="btn" onclick="calcSize()">Calculate Quantity</button>
-        <div id="res" style="margin-top: 15px; text-align: center; font-weight: bold; color: var(--green);"></div>
-    </div>
-
-    <div class="card">
-        <h3>Scalping Trainer (Beta)</h3>
-        <div id="priceDisplay">₹18250.00</div>
-        <div class="game-btns">
-            <button class="btn btn-buy" onclick="play('buy')">BUY</button>
-            <button class="btn btn-sell" onclick="play('sell')">SELL</button>
+            <div class="box">
+                <label>Amount</label>
+                <input type="number" id="tAmt" value="100">
+            </div>
+            <div class="box">
+                <label>Take Profit (TP)</label>
+                <input type="number" id="tTP" placeholder="Price" step="0.01">
+            </div>
+            <div class="box">
+                <label>Stop Loss (SL)</label>
+                <input type="number" id="tSL" placeholder="Price" step="0.01">
+            </div>
         </div>
-        <div style="display: flex; justify-content: space-between; margin-top: 15px;">
-            <span id="score">Score: 0</span>
-            <span style="font-size: 0.8rem; color: var(--muted);">Wait for Green to Buy</span>
+        <div class="btn-row">
+            <button class="t-btn buy" onclick="openTrade('BUY')">BUY</button>
+            <button class="t-btn sell" onclick="openTrade('SELL')">SELL</button>
         </div>
     </div>
 
-    <div class="card">
-        <h3>Premium Resources</h3>
-        <div class="product-item">
-            <span>Trading Psychology 101</span>
-            <span class="price-tag">₹499</span>
-        </div>
-        <div class="product-item">
-            <span>Option Chain Sheet</span>
-            <span class="price-tag">FREE</span>
-        </div>
-        <div class="product-item">
-            <span>Price Action PDF</span>
-            <span class="price-tag">₹199</span>
-        </div>
-        <button class="btn" style="background: transparent; color: var(--primary); border: 1px solid var(--primary);">Full Catalog</button>
+    <div class="data-area">
+        <div class="section-title">Active Positions</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Entry</th>
+                    <th>SL/TP</th>
+                    <th>PNL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="position-list"></tbody>
+        </table>
+
+        <div class="section-title">Trade History</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset</th>
+                    <th>Side</th>
+                    <th>Result</th>
+                    <th>P/L</th>
+                </tr>
+            </thead>
+            <tbody id="history-list"></tbody>
+        </table>
     </div>
 
-    <div class="soon">--- MORE CONTENT AVAILABLE SOON ---</div>
-</div>
-
-<script>
-    // Calculator Logic
-    function calcSize() {
-        const cap = document.getElementById('cap').value;
-        const risk = document.getElementById('risk').value;
-        const sl = document.getElementById('sl').value;
-        if(cap && risk && sl) {
-            const riskAmt = cap * (risk/100);
-            const qty = Math.floor(riskAmt / sl);
-            document.getElementById('res').innerText = "Safe Quantity: " + qty + " Units";
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+        let wallet = 10000;
+        let activeFullSymbol = 'BINANCE:BTCUSDT';
+        let activeBaseSym = 'BTCUSDT';
+        let livePrice = 0;
+        let activeTrades = [];
+        let tradeHistory = [];
+        let ws;
+                function initChart(fullSymbol) {
+            new TradingView.widget({
+                "autosize": true, 
+                "symbol": fullSymbol, 
+                "interval": "1",
+                "theme": "dark", 
+                "style": "1", 
+                "container_id": "tv_chart_main",
+                "hide_top_toolbar": false,    // Isse timeframe buttons aayenge
+                "hide_side_toolbar": false,   // Isse Drawing Tools (Strategy lines) aayenge
+                "allow_symbol_change": true,  // Isse aap chart par search kar payenge
+                "withdateranges": true,       // Isse bottom mein date range aayegi
+                "studies": [                  // Ye default Indicators add karega
+                    "RSI@tv-basicstudies",
+                    "MASimple@tv-basicstudies"
+                ]
+            });
         }
-    }
 
-    // Scalping Game Logic
-    let score = 0;
-    let basePrice = 18250.00;
-    
-    setInterval(() => {
-        const change = (Math.random() * 20 - 10).toFixed(2);
-        const newPrice = (basePrice + parseFloat(change)).toFixed(2);
-        const el = document.getElementById('priceDisplay');
-        el.innerText = "₹" + newPrice;
-        el.style.color = change > 0 ? "var(--green)" : "var(--red)";
-    }, 800);
-
-    function play(type) {
-        const color = document.getElementById('priceDisplay').style.color;
-        if((type === 'buy' && color === 'var(--green)') || (type === 'sell' && color === 'var(--red)')) {
-            score += 10;
-        } else {
-            score -= 5;
+        function startPriceStream(symbol) {
+            if (ws) ws.close();
+            if (symbol.includes("USD") && !symbol.includes("USDT")) {
+                let basePrice = symbol.includes("XAU") ? 2300 : 1.08; 
+                setInterval(() => { livePrice = basePrice + (Math.random() * 0.01 - 0.005); updatePNLs(); }, 1000);
+            } else {
+                ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@trade`);
+                ws.onmessage = (e) => { livePrice = parseFloat(JSON.parse(e.data).p); updatePNLs(); };
+            }
         }
-        document.getElementById('score').innerText = "Score: " + score;
-    }
-</script>
 
+        function switchMarket(full, base, el) {
+            activeFullSymbol = full; activeBaseSym = base;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            initChart(full); startPriceStream(base);
+        }
+
+        function openTrade(side) {
+            const amt = parseFloat(document.getElementById('tAmt').value);
+            const tp = parseFloat(document.getElementById('tTP').value) || null;
+            const sl = parseFloat(document.getElementById('tSL').value) || null;
+            if (amt > wallet) return alert("Insufficient Balance");
+
+            activeTrades.push({ id: Date.now(), sym: activeBaseSym, side: side, entry: livePrice, amt: amt, tp: tp, sl: sl });
+            renderTables();
+        }
+
+        // REPLACE / MODIFY LOGIC
+        function modifyTrade(id) {
+            const newTP = parseFloat(document.getElementById('tTP').value);
+            const newSL = parseFloat(document.getElementById('tSL').value);
+            const index = activeTrades.findIndex(t => t.id === id);
+
+            if (index > -1) {
+                if (!isNaN(newTP)) activeTrades[index].tp = newTP;
+                if (!isNaN(newSL)) activeTrades[index].sl = newSL;
+                alert("Target Updated!");
+                renderTables();
+            }
+        }
+
+        function renderTables() {
+            const posList = document.getElementById('position-list');
+            posList.innerHTML = activeTrades.map(t => `
+                <tr>
+                    <td>${t.sym} <br><small style="color:${t.side==='BUY'?'#2ebd85':'#f6465d'}">${t.side}</small></td>
+                    <td>${t.entry.toFixed(2)}</td>
+                    <td style="font-size:9px">S:${t.sl||'--'}<br>T:${t.tp||'--'}</td>
+                    <td id="pnl-${t.id}" class="pnl-up">0.00</td>
+                    <td class="action-btns">
+                        <button class="btn-m" onclick="modifyTrade(${t.id})" title="Replace/Modify">M</button>
+                        <button class="btn-x" onclick="closeManual(${t.id})">X</button>
+                    </td>
+                </tr>
+            `).join('');
+
+            const histList = document.getElementById('history-list');
+            histList.innerHTML = tradeHistory.map(h => `
+                <tr>
+                    <td>${h.sym}</td><td>${h.side}</td><td>CLOSED</td>
+                    <td class="${h.pnl >= 0 ? 'pnl-up' : 'pnl-down'}">${h.pnl.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+                function updatePNLs() {
+            // Safety Check: Agar price abhi tak load nahi hua toh calculation mat karo
+            if (livePrice <= 0) return; 
+
+            activeTrades.forEach((t, index) => {
+                const pnlEl = document.getElementById(`pnl-${t.id}`);
+                if (!pnlEl) return;
+                
+                let diff = (t.side === 'BUY') ? (livePrice - t.entry) : (t.entry - livePrice);
+                let pnl = diff * (t.amt / t.entry);
+                
+                pnlEl.innerText = pnl.toFixed(2);
+                pnlEl.className = pnl >= 0 ? "pnl-up" : "pnl-down";
+
+                // Improved Auto Close Logic with Safety
+                if (t.tp) {
+                    if (t.side === 'BUY' && livePrice >= t.tp) finalize(index, pnl);
+                    else if (t.side === 'SELL' && livePrice <= t.tp) finalize(index, pnl);
+                }
+                
+                if (t.sl) {
+                    if (t.side === 'BUY' && livePrice <= t.sl) finalize(index, pnl);
+                    else if (t.side === 'SELL' && livePrice >= t.sl) finalize(index, pnl);
+                }
+            });
+        }
+
+        function finalize(index, pnl) {
+            wallet += pnl;
+            document.getElementById('wallet-balance').innerText = `Balance: $${wallet.toFixed(2)}`;
+            tradeHistory.unshift({ ...activeTrades[index], pnl: pnl });
+            activeTrades.splice(index, 1);
+            renderTables();
+        }
+
+        function closeManual(id) {
+            const idx = activeTrades.findIndex(t => t.id === id);
+            if (idx > -1) {
+                const pnl = parseFloat(document.getElementById(`pnl-${id}`).innerText);
+                finalize(idx, pnl);
+            }
+        }
+
+        initChart(activeFullSymbol); startPriceStream(activeBaseSym);
+         
+    </script>
 </body>
 </html>
