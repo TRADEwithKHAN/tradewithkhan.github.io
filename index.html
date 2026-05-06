@@ -59,11 +59,13 @@
     </div>
 </div>
 
-<script>
-    // Supabase Setup
+ <script>
+    // Supabase Setup - FIX APPLIED HERE
     const supabaseUrl = 'https://rsjgrotznorgavudjpsp.supabase.co';
     const supabaseKey = 'sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    
+    // Yahan naam change kiya hai taaki error na aaye
+    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     function show(t) {
         document.getElementById('modal').style.display = 'flex';
@@ -75,21 +77,27 @@
     async function register() {
         const email = document.getElementById('re').value;
         const password = document.getElementById('rp').value;
-        const { error } = await supabase.auth.signUp({ email, password });
-        if(error) alert(error.message);
-        else alert("Registration Successful! Check your email to verify (if enabled).");
+        // _supabase use karein
+        const { error } = await _supabase.auth.signUp({ email, password });
+        if(error) alert("Error: " + error.message);
+        else alert("Registration Successful! Please check your email.");
     }
 
     async function login() {
         const email = document.getElementById('le').value;
         const password = document.getElementById('lp').value;
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if(error) alert(error.message);
-        else {
+        // _supabase use karein
+        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        
+        if(error) {
+            alert("Login Error: " + error.message);
+        } else {
             alert("Login Successful!");
+            // Check karein ki dashboard.html file GitHub par bani hui hai
             window.location.href = "dashboard.html"; 
         }
     }
-</script>
+ </script>
+    
 </body>
 </html>
