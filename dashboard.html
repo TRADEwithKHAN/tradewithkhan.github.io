@@ -133,9 +133,9 @@
     <script>
         let demoBalance = 10000;
 let realBalance = 0;
-let currentAccountType = 'DEMO'; // Shuruat mein Demo rahega
-let wallet = demoBalance; // Active wallet
-
+let currentAccountType = 'DEMO';
+let wallet = demoBalance; // Active balance jo trade mein use hoga
+     
         let activeFullSymbol = 'BINANCE:BTCUSDT';
         let activeBaseSym = 'BTCUSDT';
         let livePrice = 0;
@@ -164,10 +164,13 @@ let wallet = demoBalance; // Active wallet
         }
 
         // Balance UI Update function (Taaki har jagah balance update ho)
-        function updateBalanceUI() {
-            updateBalanceUI();
-        }
-     
+       function updateBalanceUI() {
+    const balanceEl = document.getElementById('user-balance');
+    if (balanceEl) {
+        balanceEl.innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
+    }
+}
+
                 function initChart(fullSymbol) {
             new TradingView.widget({
                 "autosize": true, 
