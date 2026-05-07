@@ -2,106 +2,67 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>My Profile | TWK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile | TWK</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        body { overflow-y: auto; background: #0b0e11; }
-        .p-container { padding: 20px; max-width: 500px; margin: 0 auto; }
-        .p-header { display: flex; align-items: center; gap: 15px; margin-bottom: 30px; }
-        .back-btn { background: none; border: 1px solid #474d57; color: white; padding: 5px 12px; border-radius: 5px; cursor: pointer; }
-        
-        .profile-card { background: #181a20; border-radius: 15px; padding: 25px; border: 1px solid #2b2f36; text-align: center; }
-        .avatar-box { position: relative; width: 100px; height: 100px; margin: 0 auto 15px; cursor: pointer; }
-        .avatar-box img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid #f0b90b; }
-        .upload-badge { position: absolute; bottom: 0; right: 0; background: #f0b90b; color: black; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; font-size: 15px; border: 2px solid #181a20; }
-        
-        .user-details { margin-top: 20px; text-align: left; }
-        .detail-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2b2f36; }
-        .detail-item span:first-child { color: #848e9c; }
-        
-        .logout-btn { width: 100%; background: #f6465d; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 30px; cursor: pointer; }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body>
+<body style="background: #0b0e11; color: white; font-family: sans-serif; padding: 20px;">
 
-    <div class="p-container">
-        <div class="p-header">
-            <button class="back-btn" onclick="location.href='dashboard.html'">← Back</button>
-            <h2 style="margin:0;">Profile</h2>
+    <button onclick="location.href='dashboard.html'" style="background:none; border:1px solid #474d57; color:white; padding:8px 15px; border-radius:5px; cursor:pointer;">← Back</button>
+
+    <div style="max-width: 400px; margin: 40px auto; background: #181a20; padding: 30px; border-radius: 15px; border: 1px solid #2b2f36; text-align: center;">
+        
+        <div style="position: relative; width: 100px; height: 100px; margin: 0 auto 15px; cursor: pointer;" onclick="document.getElementById('imgInput').click()">
+            <img id="user-photo" src="https://via.placeholder.com/150" style="width: 100%; height: 100%; border-radius: 50%; border: 3px solid #f0b90b; object-fit: cover;">
+            <div style="position: absolute; bottom: 0; right: 0; background: #f0b90b; color: black; border-radius: 50%; width: 25px; height: 25px; font-weight: bold; line-height: 25px;">+</div>
+        </div>
+        <input type="file" id="imgInput" style="display:none;" accept="image/*" onchange="uploadPhoto()">
+
+        <h3 id="display-name" style="margin: 10px 0;">Loading...</h3>
+        <p id="display-email" style="color: #848e9c; font-size: 14px;">Email loading...</p>
+
+        <div style="text-align: left; margin-top: 25px; border-top: 1px solid #2b2f36; padding-top: 15px;">
+            <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                <span style="color: #848e9c;">Real Balance</span>
+                <span id="real-bal" style="color:#f0b90b; font-weight: bold;">$0.00</span>
+            </div>
         </div>
 
-        <div class="profile-card">
-            <div class="avatar-box" onclick="document.getElementById('imgInput').click()">
-                <img id="user-photo" src="https://via.placeholder.com/150" alt="Profile">
-                <div class="upload-badge">+</div>
-            </div>
-            <input type="file" id="imgInput" style="display:none;" accept="image/*" onchange="uploadPhoto()">
-            
-            <h3 id="display-name" style="margin: 10px 0 5px 0;">Loading...</h3>
-            <p id="display-email" style="color: #848e9c; font-size: 12px; margin-bottom: 20px;">email@example.com</p>
-
-            <div class="user-details">
-                <div class="detail-item"><span>Status</span><span style="color: #2ebd85;">Verified Account</span></div>
-                <div class="detail-item"><span>Join Date</span><span id="join-date">May 2026</span></div>
-                <div class="detail-item"><span>Real Balance</span><span id="real-bal" style="color:#f0b90b;">$0.00</span></div>
-            </div>
-
-            <button class="logout-btn" onclick="logout()">Logout From Terminal</button>
-        </div>
+        <button onclick="logout()" style="width: 100%; background: #f6465d; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 30px; cursor: pointer;">Logout</button>
     </div>
-          <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
         const SUPABASE_URL = "https://rsjgrotznorgavudjpsp.supabase.co";
         const SUPABASE_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function loadProfile() {
-            try {
-                const { data: { user } } = await supabase.auth.getUser();
-                if (user) {
-                    let { data: profile } = await supabase
-                        .from('profiles')
-                        .select('full_name, avatar_url, real_balance')
-                        .eq('id', user.id)
-                        .single();
+            const { data: { user } } = await supabase.auth.getUser();
+            if (!user) { window.location.href = "index.html"; return; }
 
-                    if (profile) {
-                        document.getElementById('display-name').innerText = profile.full_name || "User";
-                        document.getElementById('display-email').innerText = user.email;
-                        document.getElementById('real-bal').innerText = "$" + (profile.real_balance || 0).toFixed(2);
-                        if (profile.avatar_url) document.getElementById('user-photo').src = profile.avatar_url;
-                    }
-                } else {
-                    window.location.href = "index.html";
-                }
-            } catch (err) {
-                console.log("Error:", err);
+            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+            
+            if (profile) {
+                document.getElementById('display-name').innerText = profile.full_name || "Trader";
+                document.getElementById('display-email').innerText = user.email;
+                document.getElementById('real-bal').innerText = "$" + (profile.real_balance || 0).toFixed(2);
+                if (profile.avatar_url) document.getElementById('user-photo').src = profile.avatar_url;
             }
         }
 
         async function logout() {
-            if(confirm("Logout confirm karein?")) {
+            if(confirm("Logout?")) {
                 await supabase.auth.signOut();
                 window.location.href = "index.html";
             }
         }
 
         function uploadPhoto() {
-            const file = document.getElementById('imgInput').files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('user-photo').src = e.target.result;
-                    alert("Local update ho gaya! Permanent save ke liye bucket setup chahiye.");
-                }
-                reader.readAsDataURL(file);
-            }
+            alert("Storage setup ke baad ye permanent save hogi!");
         }
 
         window.onload = loadProfile;
     </script>
 </body>
 </html>
-
-
