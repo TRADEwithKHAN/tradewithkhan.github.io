@@ -46,19 +46,19 @@
 </head>
 <body>
 
-    <div class="header">
+         <div class="header">
         <div class="logo-sq">TWK</div>
-        <div class="balance-card">
-    <small style="color: #FFD700; opacity: 0.8;">DEMO ACCOUNT</small>
-    <h1 id="user-balance">$10,000.00</h1>
-    
-    <div class="action-btns" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
-        <button class="btn-sm deposit" onclick="depositFunds()" style="background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer;">Deposit</button>
-        <button class="btn-sm withdraw" onclick="requestWithdraw()" style="background: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer;">Withdraw</button>
+        <div style="text-align: right;">
+            <small style="color: #FFD700; font-size: 9px; display: block;">DEMO ACCOUNT</small>
+            <div id="user-balance" style="font-weight: bold; color: white; font-size: 14px;">$10,000.00</div>
+        </div>
     </div>
-</div>
 
+    <div style="display: flex; gap: 10px; padding: 10px; background: #181a20; justify-content: center;">
+        <button onclick="depositFunds()" style="background: #28a745; color: white; border: none; padding: 5px 15px; border-radius: 4px; font-size: 12px; cursor: pointer;">Deposit</button>
+        <button onclick="requestWithdraw()" style="background: #dc3545; color: white; border: none; padding: 5px 15px; border-radius: 4px; font-size: 12px; cursor: pointer;">Withdraw</button>
     </div>
+ 
 
     <div class="asset-tabs">
         <div class="tab active" onclick="switchMarket('BINANCE:BTCUSDT', 'BTCUSDT', this)">BTC/USDT</div>
@@ -70,14 +70,12 @@
         <div id="tv_chart_main" style="height: 100%; width: 100%;"></div>
     </div>
 
-    <div class="control-panel">
-       
-    <div class="box">
-        <label>Leverage</label>
-        <input type="number" id="tLev" value="10" min="1" max="1000">
-    </div>
-</div>
-
+     <div class="control-panel">
+        <div class="input-grid">
+            <div class="box">
+                <label>Leverage</label>
+                <input type="number" id="tLev" value="10" min="1" max="1000">
+            </div>
             <div class="box">
                 <label>Amount</label>
                 <input type="number" id="tAmt" value="100">
@@ -91,6 +89,7 @@
                 <input type="number" id="tSL" placeholder="Price" step="0.01">
             </div>
         </div>
+      
         <div class="btn-row">
             <button class="t-btn buy" onclick="openTrade('BUY')">BUY</button>
             <button class="t-btn sell" onclick="openTrade('SELL')">SELL</button>
@@ -135,6 +134,32 @@
         let activeTrades = [];
         let tradeHistory = [];
         let ws;
+             // Deposit Function
+        function depositFunds() {
+            let amount = prompt("Enter Demo Deposit Amount:", "1000");
+            if (amount && !isNaN(amount)) {
+                wallet += parseFloat(amount);
+                updateBalanceUI();
+                alert("Demo Funds Added!");
+            }
+        }
+
+        // Withdraw Function
+        function requestWithdraw() {
+            let amount = prompt("Enter Withdrawal Amount:", "500");
+            if (amount && amount <= wallet) {
+                alert("Withdrawal Request Sent! Redirecting to Admin...");
+                window.open(`https://wa.me/8403069708text=Withdrawal Request: $${amount}`);
+            } else {
+                alert("Invalid Amount or Low Balance!");
+            }
+        }
+
+        // Balance UI Update function (Taaki har jagah balance update ho)
+        function updateBalanceUI() {
+            updateBalanceUI();
+        }
+     
                 function initChart(fullSymbol) {
             new TradingView.widget({
                 "autosize": true, 
