@@ -46,13 +46,17 @@
 </head>
 <body>
 
-         <div class="header">
-        <div class="logo-sq">TWK</div>
-        <div style="text-align: right;">
-            <small style="color: #FFD700; font-size: 9px; display: block;">DEMO ACCOUNT</small>
-            <div id="user-balance" style="font-weight: bold; color: white; font-size: 14px;">$10,000.00</div>
-        </div>
+          <div class="header">
+    <div class="logo-sq">TWK</div>
+    <div style="text-align: right;">
+        <select onchange="switchAccount(this.value)" style="background: #181a20; color: #FFD700; border: none; font-size: 10px; font-weight: bold; cursor: pointer; outline: none;">
+            <option value="DEMO">DEMO ACCOUNT</option>
+            <option value="REAL">REAL ACCOUNT</option>
+        </select>
+        <div id="user-balance" style="font-weight: bold; color: white; font-size: 14px;">$10,000.00</div>
     </div>
+          </div>
+ 
 
     <div style="display: flex; gap: 10px; padding: 10px; background: #181a20; justify-content: center;">
         <button onclick="depositFunds()" style="background: #28a745; color: white; border: none; padding: 5px 15px; border-radius: 4px; font-size: 12px; cursor: pointer;">Deposit</button>
@@ -127,7 +131,11 @@
 
     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
-        let wallet = 10000;
+        let demoBalance = 10000;
+let realBalance = 0;
+let currentAccountType = 'DEMO'; // Shuruat mein Demo rahega
+let wallet = demoBalance; // Active wallet
+
         let activeFullSymbol = 'BINANCE:BTCUSDT';
         let activeBaseSym = 'BTCUSDT';
         let livePrice = 0;
@@ -272,7 +280,20 @@
             });
         }
 
-        function finalize(index, pnl) {
+         function finalize(index, pnl) {
+    wallet += pnl;
+    
+    // Balance ko sahi bucket mein save karne ke liye
+    if (currentAccountType === 'DEMO') {
+        demoBalance = wallet;
+    } else {
+        realBalance = wallet;
+    }
+    
+    updateBalanceUI();
+    // ... baki ka trade history code
+         }
+         
             wallet += pnl;
             document.getElementById('wallet-balance').innerText = `Balance: $${wallet.toFixed(2)}`;
             tradeHistory.unshift({ ...activeTrades[index], pnl: pnl });
