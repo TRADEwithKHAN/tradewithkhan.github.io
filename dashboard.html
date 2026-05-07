@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Trade With Khan | Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
     <div class="header">
          <div class="profile-icon" onclick="location.href='profile.html'" style="cursor:pointer;">
-    <img src="https://via.placeholder.com/150" style="width:35px; height:35px; border-radius:50%; border:1.5px solid #f0b90b; object-fit: cover;">
+            <img id="header-avatar" src="https://via.placeholder.com/150" style="width:35px; height:35px; border-radius:50%; border:1.5px solid #f0b90b; object-fit: cover;">
          </div>
         
         <div style="text-align: right;">
-            <select class="acc-select" onchange="switchAccount(this.value)">
+            <select class="acc-select" id="account-type" onchange="switchAccount(this.value)">
                 <option value="DEMO">DEMO ACCOUNT</option>
                 <option value="REAL">REAL ACCOUNT</option>
             </select>
-            <div id="user-balance">$10,000.00</div>
+            <div id="user-balance" style="color:#f0b90b; font-weight:bold;">$10,000.00</div>
         </div>
     </div>
 
@@ -54,7 +55,7 @@
         </table>
     </div>
 
-    <div id="payment-modal">
+    <div id="payment-modal" style="display:none;">
         <div class="modal-content">
             <h2 style="color:#f0b90b;">Real Deposit</h2>
             <div class="modal-tabs">
