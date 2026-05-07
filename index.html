@@ -72,17 +72,40 @@
         document.getElementById('login-f').style.display = t === 'login' ? 'block' : 'none';
         document.getElementById('reg-f').style.display = t === 'register' ? 'block' : 'none';
     }
-    function hide() { document.getElementById('modal').style.display = 'none'; }
-
+    function hide() { document.getElementById('modal').style.display = 'none';  
     async function register() {
-        const email = document.getElementById('re').value;
-        const password = document.getElementById('rp').value;
-        // _supabase use karein
-        const { error } = await _supabase.auth.signUp({ email, password });
-        if(error) alert("Error: " + error.message);
-        else alert("Registration Successful! Please check your email.");
-    }
+    const email = document.getElementById('re').value;
+    const password = document.getElementById('rp').value;
+    
+    // 1. Pehle user ko Auth mein register karein
+    const { data, error } = await _supabase.auth.signUp({
+        email: email,
+        password: password
+    });
 
+    if (error) {
+        alert("Error: " + error.message);
+    } else if (data.user) {
+        // 2. Ab 'profiles' table mein entry daalein (Ye missing tha!)
+        const { error: profileError } = await _supabase
+            .from('profiles')
+            .insert([
+                { 
+                    id: data.user.id, 
+                    full_name: "New Trader", // Aap chahein toh input field se naam le sakte hain
+                    real_balance: 0,
+                    demo_balance: 10000
+                }
+            ]);
+
+        if (profileError) {
+            console.log("Profile create nahi ho payi:", profileError.message);
+        }
+        
+        alert("Registration Successful! Please check your email.");
+    }
+}
+     
     async function login() {
         const email = document.getElementById('le').value;
         const password = document.getElementById('lp').value;
