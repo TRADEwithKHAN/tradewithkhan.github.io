@@ -1,10 +1,33 @@
+// 1. Supabase Initialization (Corrected)
+const SUPABASE_URL = "https://rsjgrotznorgavudjpsp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
 // Global Variables
 let demoBalance = 10000, realBalance = 0, currentType = 'DEMO', wallet = 10000;
 let activeSym = 'BTCUSDT', livePrice = 0, trades = [], ws;
 
-// 1. Balance & Account Logic
+// 2. Data Fetching Logic (New)
+async function fetchUserData() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+        const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+        if (profile) {
+            realBalance = profile.real_balance || 0;
+            demoBalance = profile.demo_balance || 10000;
+            // Shuruat mein wallet ko demo par rakhte hain
+            wallet = (currentType === 'REAL') ? realBalance : demoBalance;
+            updateBalanceUI();
+        }
+    } else {
+        window.location.href = "index.html"; // Login nahi hai toh bahar bhej do
+    }
+}
+
+// 3. Balance & Account Logic
 function updateBalanceUI() {
-    document.getElementById('user-balance').innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
+    const el = document.getElementById('user-balance');
+    if(el) el.innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
 }
 
 function switchAccount(val) {
@@ -33,7 +56,7 @@ function requestWithdraw() {
     } else { alert("Insufficient Balance or Invalid Amount!"); }
 }
 
-// 2. Chart & Price Logic
+// 4. Chart & Price Logic
 function initChart(sym) {
     new TradingView.widget({ 
         "autosize": true, 
@@ -41,7 +64,9 @@ function initChart(sym) {
         "interval": "1", 
         "theme": "dark", 
         "container_id": "tv_chart_main", 
-        "hide_side_toolbar": false 
+        "hide_side_toolbar": false,
+        "allow_symbol_change": true,
+        "save_image": false
     });
 }
 
@@ -49,7 +74,8 @@ function startStream(sym) {
     if (ws) ws.close();
     ws = new WebSocket(`wss://stream.binance.com:9443/ws/${sym.toLowerCase()}@trade`);
     ws.onmessage = (e) => { 
-        livePrice = parseFloat(JSON.parse(e.data).p); 
+        const data = JSON.parse(e.data);
+        livePrice = parseFloat(data.p); 
         updatePNLs(); 
     };
 }
@@ -62,11 +88,15 @@ function switchMarket(full, base, el) {
     startStream(base);
 }
 
-// 3. Trading Execution
+// 5. Trading Execution
 function openTrade(side) {
     const amt = parseFloat(document.getElementById('tAmt').value);
     if (amt > wallet) return alert("Low Balance!");
+    if (livePrice === 0) return alert("Waiting for price...");
+    
     trades.push({ id: Date.now(), sym: activeSym, side: side, entry: livePrice, amt: amt });
+    wallet -= amt; // Amount deduct karein
+    updateBalanceUI();
     render();
 }
 
@@ -81,28 +111,35 @@ function updatePNLs() {
 }
 
 function render() {
-    document.getElementById('position-list').innerHTML = trades.map(t => `
+    const list = document.getElementById('position-list');
+    if(!list) return;
+    list.innerHTML = trades.map(t => `
         <tr>
             <td>${t.sym} (${t.side})</td>
             <td>${t.entry.toFixed(2)}</td>
             <td id="pnl-${t.id}">0.00</td>
-            <td><button onclick="closeTrade(${t.id})" style="background:#474d57; color:white; border:none; border-radius:3px; padding:2px 6px;">X</button></td>
+            <td><button onclick="closeTrade(${t.id})" style="background:#f6465d; color:white; border:none; border-radius:3px; padding:4px 8px; cursor:pointer;">Close</button></td>
         </tr>`).join('');
 }
 
 function closeTrade(id) {
     const i = trades.findIndex(t => t.id === id);
     if (i > -1) {
-        let currentPnl = parseFloat(document.getElementById(`pnl-${id}`).innerText);
-        wallet += currentPnl;
+        let pnlEl = document.getElementById(`pnl-${id}`);
+        let currentPnl = pnlEl ? parseFloat(pnlEl.innerText) : 0;
+        
+        // PNL + invested amount wapas wallet mein
+        wallet += (trades[i].amt + currentPnl);
+        
         if (currentType === 'DEMO') demoBalance = wallet; else realBalance = wallet;
+        
         trades.splice(i, 1); 
         updateBalanceUI(); 
         render();
     }
 }
 
-// 4. Modal Functions
+// 6. Modal Functions
 function showPay(t) {
     document.getElementById('upi-pay').style.display = (t === 'upi') ? 'block' : 'none';
     document.getElementById('crypto-pay').style.display = (t === 'crypto') ? 'block' : 'none';
@@ -120,11 +157,13 @@ function copyAddress() {
 }
 
 function confirmPay() { 
-    window.open(`https://wa.me/8403069708?text=Hi, I have paid. Please update my Real Balance.`); 
+    window.open(`https://wa.me/8403069708?text=Hi, I have paid. My Email: ${document.getElementById('display-email')?.innerText || 'Trader'}`); 
     closePay(); 
 }
 
-// Start Initial View
-initChart('BINANCE:BTCUSDT'); 
-startStream('BTCUSDT');
-
+// 7. Initialize Everything
+window.onload = () => {
+    fetchUserData();
+    initChart('BINANCE:BTCUSDT'); 
+    startStream('BTCUSDT');
+};
