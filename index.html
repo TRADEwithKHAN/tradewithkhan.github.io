@@ -26,7 +26,6 @@
         .reg { background: #FFD700; color: black; border: none; box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2); }
         .btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4); }
 
-        /* Modals */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); z-index: 100; }
         .box { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #FFD700; width: 90%; max-width: 340px; text-align: center; }
         input { width: 100%; padding: 14px; margin-bottom: 15px; border-radius: 10px; border: 1px solid #333; background: #1a1a1a; color: white; box-sizing: border-box; font-size: 1rem; outline: none; }
@@ -59,68 +58,65 @@
     </div>
 </div>
 
- <script>
-    // Supabase Setup - FIX APPLIED HERE
+<script>
     const supabaseUrl = 'https://rsjgrotznorgavudjpsp.supabase.co';
     const supabaseKey = 'sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9';
-    
-    // Yahan naam change kiya hai taaki error na aaye
-    const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
     function show(t) {
         document.getElementById('modal').style.display = 'flex';
         document.getElementById('login-f').style.display = t === 'login' ? 'block' : 'none';
         document.getElementById('reg-f').style.display = t === 'register' ? 'block' : 'none';
     }
-    function hide() { document.getElementById('modal').style.display = 'none';  
-    async function register() {
-    const email = document.getElementById('re').value;
-    const password = document.getElementById('rp').value;
-    
-    // 1. Pehle user ko Auth mein register karein
-    const { data, error } = await _supabase.auth.signUp({
-        email: email,
-        password: password
-    });
 
-    if (error) {
-        alert("Error: " + error.message);
-    } else if (data.user) {
-        // 2. Ab 'profiles' table mein entry daalein (Ye missing tha!)
-        const { error: profileError } = await _supabase
-            .from('profiles')
-            .insert([
-                { 
-                    id: data.user.id, 
-                    full_name: "New Trader", // Aap chahein toh input field se naam le sakte hain
-                    real_balance: 0,
-                    demo_balance: 10000
-                }
-            ]);
-
-        if (profileError) {
-            console.log("Profile create nahi ho payi:", profileError.message);
-        }
-        
-        alert("Registration Successful! Please check your email.");
+    function hide() { 
+        document.getElementById('modal').style.display = 'none'; 
     }
-}
+
+    async function register() {
+        const email = document.getElementById('re').value;
+        const password = document.getElementById('rp').value;
+        
+        const { data, error } = await supabaseClient.auth.signUp({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            alert("Error: " + error.message);
+        } else if (data.user) {
+            const { error: profileError } = await supabaseClient
+                .from('profiles')
+                .insert([
+                    { 
+                        id: data.user.id, 
+                        full_name: "Trader", 
+                        real_balance: 0,
+                        demo_balance: 10000
+                    }
+                ]);
+
+            if (profileError) {
+                console.log("Profile Error:", profileError.message);
+            }
+            alert("Registration Successful! Please check your email for verification.");
+        }
+    }
      
     async function login() {
         const email = document.getElementById('le').value;
         const password = document.getElementById('lp').value;
-        // _supabase use karein
-        const { data, error } = await _supabase.auth.signInWithPassword({ email, password });
+        
+        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
         
         if(error) {
             alert("Login Error: " + error.message);
         } else {
             alert("Login Successful!");
-            // Check karein ki dashboard.html file GitHub par bani hui hai
             window.location.href = "dashboard.html"; 
         }
     }
- </script>
+</script>
     
 </body>
 </html>
