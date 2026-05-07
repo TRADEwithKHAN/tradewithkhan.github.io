@@ -57,10 +57,14 @@ function requestWithdraw() {
 }
 
 // 4. Chart & Price Logic
-function initChart(sym) {
+ function initChart(sym) {
+    if (typeof TradingView === 'undefined') {
+        console.error("TradingView library load nahi hui!");
+        return;
+    }
+    
     new TradingView.widget({
-        "width": "100%",
-        "height": "100%",
+        "autosize": true,
         "symbol": sym,
         "interval": "1",
         "timezone": "Etc/UTC",
@@ -70,9 +74,10 @@ function initChart(sym) {
         "toolbar_bg": "#f1f3f6",
         "enable_publishing": false,
         "allow_symbol_change": true,
-        "container_id": "tv_chart_main"
+        "container_id": "tv_chart_main" // Dashboard ke div ki ID se match hona chahiye
     });
-}
+ }
+
 
 function startStream(sym) {
     if (ws) ws.close();
