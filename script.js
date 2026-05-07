@@ -58,15 +58,19 @@ function requestWithdraw() {
 
 // 4. Chart & Price Logic
 function initChart(sym) {
-    new TradingView.widget({ 
-        "autosize": true, 
-        "symbol": sym, 
-        "interval": "1", 
-        "theme": "dark", 
-        "container_id": "tv_chart_main", 
-        "hide_side_toolbar": false,
+    new TradingView.widget({
+        "width": "100%",
+        "height": "100%",
+        "symbol": sym,
+        "interval": "1",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#f1f3f6",
+        "enable_publishing": false,
         "allow_symbol_change": true,
-        "save_image": false
+        "container_id": "tv_chart_main"
     });
 }
 
