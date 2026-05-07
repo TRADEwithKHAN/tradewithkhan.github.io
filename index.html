@@ -50,12 +50,21 @@
         <input type="password" id="lp" placeholder="Password">
         <button class="submit" onclick="login()">ENTER TERMINAL</button>
     </div>
-    <div id="reg-f" class="box" onclick="event.stopPropagation()" style="display:none">
-        <h2 style="color:#FFD700; margin-bottom: 20px;">REGISTER</h2>
-        <input type="email" id="re" placeholder="Your Email">
-        <input type="password" id="rp" placeholder="Set Password">
-        <button class="submit" onclick="register()">CREATE ACCOUNT</button>
+    
+<div id="reg-f" class="box" onclick="event.stopPropagation()" style="display:none">
+    <h2 style="color:#FFD700; margin-bottom: 20px;">REGISTER</h2>
+    <input type="text" id="rn" placeholder="Full Name">
+    <input type="email" id="re" placeholder="Your Email">
+    <input type="password" id="rp" placeholder="Set Password">
+    
+    <div style="text-align: left; font-size: 12px; margin-bottom: 15px;">
+        <label><input type="checkbox" id="age_check"> I am 18+ years old</label><br>
+        <label><input type="checkbox" id="terms_check"> I agree to Terms & Conditions</label>
     </div>
+    
+    <button class="submit" onclick="register()">CREATE ACCOUNT</button>
+</div>
+    
 </div>
 
 <script>
