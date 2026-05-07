@@ -256,7 +256,62 @@
         }
 
         initChart(activeFullSymbol); startPriceStream(activeBaseSym);
-    </script>
+        <div id="payment-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; padding:20px;">
+        <div style="background:#181a20; padding:25px; border-radius:15px; width:100%; max-width:400px; border:1px solid #f0b90b; text-align:center;">
+            <h2 style="color:#f0b90b;">Real Deposit</h2>
+            
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <button onclick="showPay('upi')" style="flex:1; background:#28a745; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">UPI / QR</button>
+                <button onclick="showPay('crypto')" style="flex:1; background:#f0b90b; color:black; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight:bold;">USDT (TRC20)</button>
+            </div>
+
+            <div id="upi-pay" style="display:none;">
+                <img src="upi-qr.jpg" style="width:180px; height:180px; margin-bottom:10px; border-radius:8px;" alt="Scan UPI">
+                <p style="color:#f0b90b;">UPI ID: 8403069708@upi</p>
+            </div>
+
+            <div id="crypto-pay" style="display:none;">
+                <img src="usdt-qr.jpg" style="width:180px; height:180px; margin-bottom:10px; border-radius:8px;" alt="Scan USDT">
+                <input type="text" id="usdt-addr" value="YOUR_USDT_ADDRESS" readonly onclick="copyAddress()" style="width:100%; background:#0b0e11; border:1px solid #474d57; color:white; padding:10px; border-radius:5px; text-align:center; font-size:10px;">
+                <p style="font-size:10px; color:#848e9c; margin-top:5px;">Click address to copy</p>
+            </div>
+
+            <div style="margin-top:20px; display:flex; gap:10px;">
+                <button onclick="closePay()" style="flex:1; background:none; border:1px solid #474d57; color:white; padding:10px; border-radius:5px;">Cancel</button>
+                <button onclick="confirmPay()" style="flex:1; background:#f0b90b; color:black; border:none; padding:10px; border-radius:5px; font-weight:bold;">I Have Paid</button>
+            </div>
+        </div>
+    </div>
+     
+    // Aapka JavaScript yahan se shuru hota hai...
+ <script>
+    // 1. Modal Toggle Functions
+    function showPay(type) {
+        document.getElementById('upi-pay').style.display = (type === 'upi') ? 'block' : 'none';
+        document.getElementById('crypto-pay').style.display = (type === 'crypto') ? 'block' : 'none';
+    }
+
+    function closePay() {
+        document.getElementById('payment-modal').style.display = 'none';
+    }
+
+    // 2. USDT Address Copy Logic
+    function copyAddress() {
+        var copyText = document.getElementById("usdt-addr");
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); 
+        navigator.clipboard.writeText(copyText.value);
+        alert("USDT Address Copied!");
+    }
+
+    // 3. Confirm Payment & WhatsApp
+    function confirmPay() {
+        alert("Redirecting to Admin for Payment Verification...");
+        window.open(`https://wa.me/8403069708?text=Hi, I have sent the payment. Please update my Real Balance.`);
+        closePay();
+    }
+</script>
+ 
 
 </body>
 </html>
