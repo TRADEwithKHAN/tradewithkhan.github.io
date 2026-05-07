@@ -71,6 +71,50 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    // Apni asli Keys yahan dalein
+    const SUPABASE_URL = "YOUR_SUPABASE_URL";
+    const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadProfile() {
+        const { data: { user } } = await supabase.auth.getUser();
+
+        if (user) {
+            let { data: profile } = await supabase
+                .from('profiles')
+                .select(`full_name, avatar_url, real_balance`)
+                .eq('id', user.id)
+                .single();
+
+            if (profile) {
+                document.getElementById('display-name').innerText = profile.full_name || "User";
+                document.getElementById('display-email').innerText = user.email;
+                document.getElementById('real-bal').innerText = "$" + (profile.real_balance || 0).toFixed(2);
+                
+                if (profile.avatar_url) {
+                    document.getElementById('user-photo').src = profile.avatar_url;
+                }
+            }
+        } else {
+            window.location.href = "index.html";
+        }
+    }
+
+    // Page load hote hi data mangwane ke liye
+    window.onload = loadProfile;
+
+    // Logout logic
+    async function logout() {
+        if(confirm("Logout confirm karein?")) {
+            await supabase.auth.signOut();
+            window.location.href = "index.html";
+        }
+    }
+</script>
+    
 </body>
 </html>
 
