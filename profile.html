@@ -29,32 +29,43 @@
             </div>
         </div>
 
-        <button onclick="logout()" style="width: 100%; background: #f6465d; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 30px; cursor: pointer;">Logout</button>
+        <button onclick="handleLogout()" style="width: 100%; background: #f6465d; color: white; border: none; padding: 15px; border-radius: 10px; font-weight: bold; margin-top: 30px; cursor: pointer;">Logout From Terminal</button>
     </div>
 
     <script>
         const SUPABASE_URL = "https://rsjgrotznorgavudjpsp.supabase.co";
         const SUPABASE_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
+        // Client name consistent rakhein
         const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function loadProfile() {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (!user) { window.location.href = "index.html"; return; }
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (!user) { window.location.href = "index.html"; return; }
 
-            const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
-            
-            if (profile) {
-                document.getElementById('display-name').innerText = profile.full_name || "Trader";
-                document.getElementById('display-email').innerText = user.email;
-                document.getElementById('real-bal').innerText = "$" + (profile.real_balance || 0).toFixed(2);
-                if (profile.avatar_url) document.getElementById('user-photo').src = profile.avatar_url;
+                const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+                
+                if (profile) {
+                    document.getElementById('display-name').innerText = profile.full_name || "Trader";
+                    document.getElementById('display-email').innerText = user.email;
+                    document.getElementById('real-bal').innerText = "$" + (profile.real_balance || 0).toFixed(2);
+                    if (profile.avatar_url) document.getElementById('user-photo').src = profile.avatar_url;
+                }
+            } catch (err) {
+                console.error("Profile load fail:", err);
             }
         }
 
-        async function logout() {
-            if(confirm("Logout?")) {
-                await supabase.auth.signOut();
-                window.location.href = "index.html";
+        async function handleLogout() {
+            if(confirm("Kya aap logout karna chahte hain?")) {
+                try {
+                    await supabase.auth.signOut();
+                    localStorage.clear(); // Session puri tarah clear karne ke liye
+                    window.location.href = "index.html";
+                } catch (error) {
+                    console.error("Logout error:", error);
+                    window.location.href = "index.html"; // Error ho tab bhi bhej dein
+                }
             }
         }
 
