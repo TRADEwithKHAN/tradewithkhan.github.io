@@ -50,30 +50,7 @@
             <button class="logout-btn" onclick="logout()">Logout From Terminal</button>
         </div>
     </div>
-
-    <script>
-        // Filhal ke liye simple logout
-        function logout() {
-            if(confirm("Logout confirm karein?")) {
-                window.location.href = "index.html";
-            }
-        }
-
-        function uploadPhoto() {
-            const file = document.getElementById('imgInput').files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('user-photo').src = e.target.result;
-                    alert("Photo local update ho gayi! Supabase setup ke baad ye permanent save hogi.");
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+          <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = "https://rsjgrotznorgavudjpsp.supabase.co";
         const SUPABASE_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
@@ -83,9 +60,9 @@
             try {
                 const { data: { user } } = await supabase.auth.getUser();
                 if (user) {
-                    let { data: profile, error } = await supabase
+                    let { data: profile } = await supabase
                         .from('profiles')
-                        .select(`full_name, avatar_url, real_balance`)
+                        .select('full_name, avatar_url, real_balance')
                         .eq('id', user.id)
                         .single();
 
@@ -99,7 +76,7 @@
                     window.location.href = "index.html";
                 }
             } catch (err) {
-                console.error("Error loading profile:", err);
+                console.log("Error:", err);
             }
         }
 
