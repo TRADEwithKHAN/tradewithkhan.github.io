@@ -1,68 +1,65 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trade With Khan | Final Live V8</title>
+    <title>Trade With Khan | Official Terminal</title>
     <style>
         * { box-sizing: border-box; touch-action: manipulation; }
         body { background-color: #0b0e11; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
         
+        /* Header & Balance */
         .header { height: 50px; padding: 0 15px; background: #181a20; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #2b2f36; flex-shrink: 0; }
         .logo-sq { width: 32px; height: 32px; border: 2px solid #f0b90b; border-radius: 4px; display: flex; justify-content: center; align-items: center; font-weight: bold; color: #f0b90b; font-size: 14px; }
+        .acc-select { background: #181a20; color: #f0b90b; border: none; font-size: 11px; font-weight: bold; outline: none; cursor: pointer; }
 
+        /* Tabs & Buttons */
         .asset-tabs { display: flex; background: #181a20; border-bottom: 1px solid #2b2f36; padding: 5px; gap: 8px; overflow-x: auto; flex-shrink: 0; }
-        .tab { padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; background: #2b3139; color: #848e9c; white-space: nowrap; border: 1px solid transparent; }
+        .tab { padding: 6px 12px; border-radius: 4px; font-size: 11px; cursor: pointer; background: #2b3139; color: #848e9c; white-space: nowrap; }
         .tab.active { background: rgba(240, 185, 11, 0.1); color: #f0b90b; border: 1px solid #f0b90b; }
+        .dep-with-row { display: flex; gap: 10px; padding: 8px; background: #181a20; justify-content: center; border-bottom: 1px solid #2b2f36; }
+        .btn-sm { border: none; padding: 6px 15px; border-radius: 4px; font-size: 12px; cursor: pointer; font-weight: bold; color: white; }
 
-        .chart-window { flex-grow: 1; width: 100%; position: relative; background: #000; overflow: hidden; }
+        /* Chart */
+        .chart-window { flex-grow: 1; width: 100%; background: #000; }
 
-        .control-panel { background: #181a20; padding: 12px; border-top: 1px solid #2b2f36; flex-shrink: 0; }
+        /* Controls */
+        .control-panel { background: #181a20; padding: 12px; border-top: 1px solid #2b2f36; }
         .input-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
         .box { background: #2b3139; padding: 6px; border-radius: 4px; border: 1px solid #474d57; }
         .box label { font-size: 9px; color: #848e9c; display: block; text-transform: uppercase; }
-        .box input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 13px; padding-top: 2px; }
-
+        .box input { background: transparent; border: none; color: white; width: 100%; outline: none; font-size: 13px; }
         .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .t-btn { border: none; padding: 14px; border-radius: 6px; font-weight: bold; color: white; font-size: 15px; cursor: pointer; }
-        .buy { background: #2ebd85; }
-        .sell { background: #f6465d; }
 
-        .data-area { height: 180px; background: #0b0e11; overflow-y: auto; padding: 10px; border-top: 1px solid #2b2f36; flex-shrink: 0; }
-        .section-title { font-size: 12px; color: #f0b90b; font-weight: bold; margin-bottom: 8px; text-transform: uppercase; }
-        
-        table { width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 15px; }
+        /* Table Area */
+        .data-area { height: 160px; overflow-y: auto; padding: 10px; background: #0b0e11; border-top: 1px solid #2b2f36; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
         th { text-align: left; color: #848e9c; border-bottom: 1px solid #2b2f36; padding-bottom: 5px; }
         td { padding: 8px 0; border-bottom: 1px solid #1e2329; }
-        
-        /* New Action Buttons */
-        .action-btns { display: flex; gap: 5px; }
-        .btn-m { background: #f0b90b; color: black; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-weight: bold; font-size: 10px; }
-        .btn-x { background: #474d57; color: white; border: none; padding: 3px 6px; border-radius: 3px; cursor: pointer; font-size: 10px; }
+        .pnl-up { color: #2ebd85; } .pnl-down { color: #f6465d; }
 
-        .pnl-up { color: #2ebd85; font-weight: bold; }
-        .pnl-down { color: #f6465d; font-weight: bold; }
+        /* Payment Modal */
+        #payment-modal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; padding:20px; }
     </style>
 </head>
 <body>
 
-          <div class="header">
-    <div class="logo-sq">TWK</div>
-    <div style="text-align: right;">
-        <select onchange="switchAccount(this.value)" style="background: #181a20; color: #FFD700; border: none; font-size: 10px; font-weight: bold; cursor: pointer; outline: none;">
-            <option value="DEMO">DEMO ACCOUNT</option>
-            <option value="REAL">REAL ACCOUNT</option>
-        </select>
-        <div id="user-balance" style="font-weight: bold; color: white; font-size: 14px;">$10,000.00</div>
+    <div class="header">
+        <div class="logo-sq">TWK</div>
+        <div style="text-align: right;">
+            <select class="acc-select" onchange="switchAccount(this.value)">
+                <option value="DEMO">DEMO ACCOUNT</option>
+                <option value="REAL">REAL ACCOUNT</option>
+            </select>
+            <div id="user-balance" style="font-weight: bold; font-size: 14px;">$10,000.00</div>
+        </div>
     </div>
-          </div>
- 
 
-    <div style="display: flex; gap: 10px; padding: 10px; background: #181a20; justify-content: center;">
-        <button onclick="depositFunds()" style="background: #28a745; color: white; border: none; padding: 5px 15px; border-radius: 4px; font-size: 12px; cursor: pointer;">Deposit</button>
-        <button onclick="requestWithdraw()" style="background: #dc3545; color: white; border: none; padding: 5px 15px; border-radius: 4px; font-size: 12px; cursor: pointer;">Withdraw</button>
+    <div class="dep-with-row">
+        <button class="btn-sm" onclick="depositFunds()" style="background:#28a745;">Deposit</button>
+        <button class="btn-sm" onclick="requestWithdraw()" style="background:#dc3545;">Withdraw</button>
     </div>
- 
 
     <div class="asset-tabs">
         <div class="tab active" onclick="switchMarket('BINANCE:BTCUSDT', 'BTCUSDT', this)">BTC/USDT</div>
@@ -70,248 +67,131 @@
         <div class="tab" onclick="switchMarket('OANDA:XAUUSD', 'XAUUSD', this)">GOLD (XAU)</div>
     </div>
 
-    <div class="chart-window">
-        <div id="tv_chart_main" style="height: 100%; width: 100%;"></div>
-    </div>
+    <div class="chart-window" id="tv_chart_main"></div>
 
-     <div class="control-panel">
+    <div class="control-panel">
         <div class="input-grid">
-            <div class="box">
-                <label>Leverage</label>
-                <input type="number" id="tLev" value="10" min="1" max="1000">
-            </div>
-            <div class="box">
-                <label>Amount</label>
-                <input type="number" id="tAmt" value="100">
-            </div>
-            <div class="box">
-                <label>Take Profit (TP)</label>
-                <input type="number" id="tTP" placeholder="Price" step="0.01">
-            </div>
-            <div class="box">
-                <label>Stop Loss (SL)</label>
-                <input type="number" id="tSL" placeholder="Price" step="0.01">
-            </div>
+            <div class="box"><label>Leverage</label><input type="number" id="tLev" value="10"></div>
+            <div class="box"><label>Amount</label><input type="number" id="tAmt" value="100"></div>
+            <div class="box"><label>TP/SL</label><input type="text" placeholder="Optional" disabled></div>
         </div>
-      
         <div class="btn-row">
-            <button class="t-btn buy" onclick="openTrade('BUY')">BUY</button>
-            <button class="t-btn sell" onclick="openTrade('SELL')">SELL</button>
+            <button class="t-btn" onclick="openTrade('BUY')" style="background:#2ebd85;">BUY</button>
+            <button class="t-btn" onclick="openTrade('SELL')" style="background:#f6465d;">SELL</button>
         </div>
     </div>
 
     <div class="data-area">
-        <div class="section-title">Active Positions</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Asset</th>
-                    <th>Entry</th>
-                    <th>SL/TP</th>
-                    <th>PNL</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+        <table id="pos-table">
+            <thead><tr><th>Asset</th><th>Entry</th><th>PNL</th><th>Action</th></tr></thead>
             <tbody id="position-list"></tbody>
         </table>
+    </div>
 
-        <div class="section-title">Trade History</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Asset</th>
-                    <th>Side</th>
-                    <th>Result</th>
-                    <th>P/L</th>
-                </tr>
-            </thead>
-            <tbody id="history-list"></tbody>
-        </table>
-    </div>   
-     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script>
-        // 1. Basic Variables
-        let demoBalance = 10000;
-        let realBalance = 0;
-        let currentAccountType = 'DEMO';
-        let wallet = demoBalance; 
-
-        let activeFullSymbol = 'BINANCE:BTCUSDT';
-        let activeBaseSym = 'BTCUSDT';
-        let livePrice = 0;
-        let activeTrades = [];
-        let tradeHistory = [];
-        let ws;
-
-        // 2. Deposit & Withdraw Functions
-        function depositFunds() {
-            let amount = prompt("Enter Demo Deposit Amount:", "1000");
-            if (amount && !isNaN(amount)) {
-                wallet += parseFloat(amount);
-                if(currentAccountType === 'DEMO') demoBalance = wallet;
-                else realBalance = wallet;
-                updateBalanceUI();
-                alert("Demo Funds Added!");
-            }
-        }
-
-        function requestWithdraw() {
-            let amount = prompt("Enter Withdrawal Amount:", "500");
-            if (amount && amount <= wallet) {
-                alert("Withdrawal Request Sent! Redirecting to Admin...");
-                window.open(`https://wa.me/8403069708?text=Withdrawal Request: $${amount}`);
-            } else {
-                alert("Invalid Amount or Low Balance!");
-            }
-        }
-
-        // 3. UI Update (Fixed Loop Error)
-        function updateBalanceUI() {
-            const balanceEl = document.getElementById('user-balance');
-            if (balanceEl) {
-                balanceEl.innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
-            }
-        }
-
-        // 4. Account Switcher
-        function switchAccount(type) {
-            currentAccountType = type;
-            wallet = (type === 'REAL') ? realBalance : demoBalance;
-            updateBalanceUI();
-        }
-
-        // --- Baki ka Chart aur Trading Logic ---
-
-        function initChart(fullSymbol) {
-            new TradingView.widget({
-                "autosize": true, "symbol": fullSymbol, "interval": "1",
-                "theme": "dark", "style": "1", "container_id": "tv_chart_main",
-                "hide_top_toolbar": false, "hide_side_toolbar": false,
-                "allow_symbol_change": true, "withdateranges": true,
-                "studies": ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"]
-            });
-        }
-
-        function startPriceStream(symbol) {
-            if (ws) ws.close();
-            ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@trade`);
-            ws.onmessage = (e) => { livePrice = parseFloat(JSON.parse(e.data).p); updatePNLs(); };
-        }
-
-        function switchMarket(full, base, el) {
-            activeFullSymbol = full; activeBaseSym = base;
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            el.classList.add('active');
-            initChart(full); startPriceStream(base);
-        }
-
-        function openTrade(side) {
-            const amt = parseFloat(document.getElementById('tAmt').value);
-            if (amt > wallet) return alert("Insufficient Balance");
-            activeTrades.push({ id: Date.now(), sym: activeBaseSym, side: side, entry: livePrice, amt: amt });
-            renderTables();
-        }
-
-        function renderTables() {
-            const posList = document.getElementById('position-list');
-            posList.innerHTML = activeTrades.map(t => `
-                <tr>
-                    <td>${t.sym}<br><small style="color:${t.side==='BUY'?'#2ebd85':'#f6465d'}">${t.side}</small></td>
-                    <td>${t.entry.toFixed(2)}</td>
-                    <td>--</td>
-                    <td id="pnl-${t.id}">0.00</td>
-                    <td><button class="btn-x" onclick="closeManual(${t.id})">X</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function updatePNLs() {
-            if (livePrice <= 0) return;
-            activeTrades.forEach((t, index) => {
-                const pnlEl = document.getElementById(`pnl-${t.id}`);
-                if (!pnlEl) return;
-                let diff = (t.side === 'BUY') ? (livePrice - t.entry) : (t.entry - livePrice);
-                let pnl = diff * (t.amt / t.entry);
-                pnlEl.innerText = pnl.toFixed(2);
-                pnlEl.className = pnl >= 0 ? "pnl-up" : "pnl-down";
-            });
-        }
-
-        function finalize(index, pnl) {
-            wallet += pnl;
-            if (currentAccountType === 'DEMO') demoBalance = wallet;
-            else realBalance = wallet;
-            updateBalanceUI();
-            tradeHistory.unshift({ ...activeTrades[index], pnl: pnl });
-            activeTrades.splice(index, 1);
-            renderTables();
-        }
-
-        function closeManual(id) {
-            const idx = activeTrades.findIndex(t => t.id === id);
-            if (idx > -1) {
-                const pnl = parseFloat(document.getElementById(`pnl-${id}`).innerText);
-                finalize(idx, pnl);
-            }
-        }
-
-        initChart(activeFullSymbol); startPriceStream(activeBaseSym);
-        <div id="payment-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; justify-content:center; align-items:center; padding:20px;">
-        <div style="background:#181a20; padding:25px; border-radius:15px; width:100%; max-width:400px; border:1px solid #f0b90b; text-align:center;">
-            <h2 style="color:#f0b90b;">Real Deposit</h2>
-            
+    <div id="payment-modal">
+        <div style="background:#181a20; padding:25px; border-radius:15px; width:100%; max-width:380px; border:1px solid #f0b90b; text-align:center;">
+            <h2 style="color:#f0b90b; margin-bottom:20px;">Real Deposit</h2>
             <div style="display:flex; gap:10px; margin-bottom:20px;">
-                <button onclick="showPay('upi')" style="flex:1; background:#28a745; color:white; border:none; padding:10px; border-radius:5px; cursor:pointer;">UPI / QR</button>
-                <button onclick="showPay('crypto')" style="flex:1; background:#f0b90b; color:black; border:none; padding:10px; border-radius:5px; cursor:pointer; font-weight:bold;">USDT (TRC20)</button>
+                <button onclick="showPay('upi')" style="flex:1; background:#28a745; color:white; border:none; padding:10px; border-radius:5px;">UPI / QR</button>
+                <button onclick="showPay('crypto')" style="flex:1; background:#f0b90b; color:black; border:none; padding:10px; border-radius:5px; font-weight:bold;">USDT (TRC20)</button>
             </div>
-
             <div id="upi-pay" style="display:none;">
-                <img src="upi-qr.jpg" style="width:180px; height:180px; margin-bottom:10px; border-radius:8px;" alt="Scan UPI">
-                <p style="color:#f0b90b;">UPI ID:tradewithkhan@axl </p>
+                <img src="upi-qr.jpg" style="width:160px; height:160px; margin-bottom:10px; border-radius:8px;">
+                <p style="color:#f0b90b; font-size:12px;">ID: tradewithkhan@axl</p>
             </div>
-
             <div id="crypto-pay" style="display:none;">
-                <img src="usdt-qr.jpg" style="width:180px; height:180px; margin-bottom:10px; border-radius:8px;" alt="Scan USDT">
-                <input type="text" id="usdt-addr" value="TRGLcCVPYh322PFW9nTuqRf3XmoBkADGKy"if (currentAccountType === 'DEMO') demoBalance = wallet; readonly onclick="copyAddress()" style="width:100%; background:#0b0e11; border:1px solid #474d57; color:white; padding:10px; border-radius:5px; text-align:center; font-size:10px;">
-                <p style="font-size:10px; color:#848e9c; margin-top:5px;">Click address to copy</p>
+                <img src="usdt-qr.jpg" style="width:160px; height:160px; margin-bottom:10px; border-radius:8px;">
+                <input type="text" id="usdt-addr" value="YOUR_USDT_ADDRESS" readonly onclick="copyAddress()" style="width:100%; background:#0b0e11; border:1px solid #474d57; color:white; padding:8px; border-radius:4px; font-size:10px; text-align:center;">
             </div>
-
             <div style="margin-top:20px; display:flex; gap:10px;">
                 <button onclick="closePay()" style="flex:1; background:none; border:1px solid #474d57; color:white; padding:10px; border-radius:5px;">Cancel</button>
                 <button onclick="confirmPay()" style="flex:1; background:#f0b90b; color:black; border:none; padding:10px; border-radius:5px; font-weight:bold;">I Have Paid</button>
             </div>
         </div>
     </div>
-     
-    // Aapka JavaScript yahan se shuru hota hai...
- <script>
-    // 1. Modal Toggle Functions
-    function showPay(type) {
-        document.getElementById('upi-pay').style.display = (type === 'upi') ? 'block' : 'none';
-        document.getElementById('crypto-pay').style.display = (type === 'crypto') ? 'block' : 'none';
-    }
 
-    function closePay() {
-        document.getElementById('payment-modal').style.display = 'none';
-    }
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script>
+        let demoBalance = 10000, realBalance = 0, currentType = 'DEMO', wallet = 10000;
+        let activeSym = 'BTCUSDT', livePrice = 0, trades = [], ws;
 
-    // 2. USDT Address Copy Logic
-    function copyAddress() {
-        var copyText = document.getElementById("usdt-addr");
-        copyText.select();
-        copyText.setSelectionRange(0, 99999); 
-        navigator.clipboard.writeText(copyText.value);
-        alert("USDT Address Copied!");
-    }
+        function updateBalanceUI() {
+            document.getElementById('user-balance').innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }
 
-    // 3. Confirm Payment & WhatsApp
-    function confirmPay() {
-        alert("Redirecting to Admin for Payment Verification...");
-        window.open(`https://wa.me/8403069708?text=Hi, I have sent the payment. Please update my Real Balance.`);
-        closePay();
-    }
-</script>
- 
+        function switchAccount(val) {
+            currentType = val;
+            wallet = (val === 'REAL') ? realBalance : demoBalance;
+            updateBalanceUI();
+        }
 
+        function depositFunds() {
+            if (currentType === 'REAL') {
+                document.getElementById('payment-modal').style.display = 'flex';
+            } else {
+                let amt = prompt("Demo Amount:", "1000");
+                if (amt && !isNaN(amt)) { wallet += parseFloat(amt); demoBalance = wallet; updateBalanceUI(); }
+            }
+        }
+
+        function initChart(sym) {
+            new TradingView.widget({ "autosize": true, "symbol": sym, "interval": "1", "theme": "dark", "container_id": "tv_chart_main", "hide_side_toolbar": false });
+        }
+
+        function startStream(sym) {
+            if (ws) ws.close();
+            ws = new WebSocket(`wss://stream.binance.com:9443/ws/${sym.toLowerCase()}@trade`);
+            ws.onmessage = (e) => { livePrice = parseFloat(JSON.parse(e.data).p); updatePNLs(); };
+        }
+
+        function switchMarket(full, base, el) {
+            activeSym = base;
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            initChart(full); startStream(base);
+        }
+
+        function openTrade(side) {
+            const amt = parseFloat(document.getElementById('tAmt').value);
+            if (amt > wallet) return alert("Low Balance!");
+            trades.push({ id: Date.now(), sym: activeSym, side: side, entry: livePrice, amt: amt });
+            render();
+        }
+
+        function updatePNLs() {
+            trades.forEach(t => {
+                const el = document.getElementById(`pnl-${t.id}`);
+                if (!el) return;
+                let pnl = (t.side === 'BUY' ? livePrice - t.entry : t.entry - livePrice) * (t.amt / t.entry);
+                el.innerText = pnl.toFixed(2);
+                el.className = pnl >= 0 ? "pnl-up" : "pnl-down";
+            });
+        }
+
+        function render() {
+            document.getElementById('position-list').innerHTML = trades.map(t => `
+                <tr><td>${t.sym} (${t.side})</td><td>${t.entry.toFixed(2)}</td><td id="pnl-${t.id}">0.00</td>
+                <td><button onclick="closeTrade(${t.id})" style="background:#474d57; color:white; border:none; border-radius:3px;">X</button></td></tr>`).join('');
+        }
+
+        function closeTrade(id) {
+            const i = trades.findIndex(t => t.id === id);
+            if (i > -1) {
+                wallet += parseFloat(document.getElementById(`pnl-${id}`).innerText);
+                if (currentType === 'DEMO') demoBalance = wallet; else realBalance = wallet;
+                trades.splice(i, 1); updateBalanceUI(); render();
+            }
+        }
+
+        function showPay(t) {
+            document.getElementById('upi-pay').style.display = (t === 'upi') ? 'block' : 'none';
+            document.getElementById('crypto-pay').style.display = (t === 'crypto') ? 'block' : 'none';
+        }
+        function closePay() { document.getElementById('payment-modal').style.display = 'none'; }
+        function copyAddress() { navigator.clipboard.writeText(document.getElementById("usdt-addr").value); alert("Copied!"); }
+        function confirmPay() { window.open(`https://wa.me/8403069708?text=I have paid. Update my real balance.`); closePay(); }
+
+        initChart('BINANCE:BTCUSDT'); startStream('BTCUSDT');
+    </script>
 </body>
 </html>
