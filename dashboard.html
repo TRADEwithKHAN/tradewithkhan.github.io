@@ -127,78 +127,75 @@
             </thead>
             <tbody id="history-list"></tbody>
         </table>
-    </div>
-
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    </div>   
+     <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script>
+        // 1. Basic Variables
         let demoBalance = 10000;
-let realBalance = 0;
-let currentAccountType = 'DEMO';
-let wallet = demoBalance; // Active balance jo trade mein use hoga
-     
+        let realBalance = 0;
+        let currentAccountType = 'DEMO';
+        let wallet = demoBalance; 
+
         let activeFullSymbol = 'BINANCE:BTCUSDT';
         let activeBaseSym = 'BTCUSDT';
         let livePrice = 0;
         let activeTrades = [];
         let tradeHistory = [];
         let ws;
-             // Deposit Function
+
+        // 2. Deposit & Withdraw Functions
         function depositFunds() {
             let amount = prompt("Enter Demo Deposit Amount:", "1000");
             if (amount && !isNaN(amount)) {
                 wallet += parseFloat(amount);
+                if(currentAccountType === 'DEMO') demoBalance = wallet;
+                else realBalance = wallet;
                 updateBalanceUI();
                 alert("Demo Funds Added!");
             }
         }
 
-        // Withdraw Function
         function requestWithdraw() {
             let amount = prompt("Enter Withdrawal Amount:", "500");
             if (amount && amount <= wallet) {
                 alert("Withdrawal Request Sent! Redirecting to Admin...");
-                window.open(`https://wa.me/8403069708text=Withdrawal Request: $${amount}`);
+                window.open(`https://wa.me/8403069708?text=Withdrawal Request: $${amount}`);
             } else {
                 alert("Invalid Amount or Low Balance!");
             }
         }
 
-        // Balance UI Update function (Taaki har jagah balance update ho)
-       function updateBalanceUI() {
-    const balanceEl = document.getElementById('user-balance');
-    if (balanceEl) {
-        balanceEl.innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
-    }
-}
+        // 3. UI Update (Fixed Loop Error)
+        function updateBalanceUI() {
+            const balanceEl = document.getElementById('user-balance');
+            if (balanceEl) {
+                balanceEl.innerText = "$" + wallet.toLocaleString(undefined, {minimumFractionDigits: 2});
+            }
+        }
 
-                function initChart(fullSymbol) {
+        // 4. Account Switcher
+        function switchAccount(type) {
+            currentAccountType = type;
+            wallet = (type === 'REAL') ? realBalance : demoBalance;
+            updateBalanceUI();
+        }
+
+        // --- Baki ka Chart aur Trading Logic ---
+
+        function initChart(fullSymbol) {
             new TradingView.widget({
-                "autosize": true, 
-                "symbol": fullSymbol, 
-                "interval": "1",
-                "theme": "dark", 
-                "style": "1", 
-                "container_id": "tv_chart_main",
-                "hide_top_toolbar": false,    // Isse timeframe buttons aayenge
-                "hide_side_toolbar": false,   // Isse Drawing Tools (Strategy lines) aayenge
-                "allow_symbol_change": true,  // Isse aap chart par search kar payenge
-                "withdateranges": true,       // Isse bottom mein date range aayegi
-                "studies": [                  // Ye default Indicators add karega
-                    "RSI@tv-basicstudies",
-                    "MASimple@tv-basicstudies"
-                ]
+                "autosize": true, "symbol": fullSymbol, "interval": "1",
+                "theme": "dark", "style": "1", "container_id": "tv_chart_main",
+                "hide_top_toolbar": false, "hide_side_toolbar": false,
+                "allow_symbol_change": true, "withdateranges": true,
+                "studies": ["RSI@tv-basicstudies", "MASimple@tv-basicstudies"]
             });
         }
 
         function startPriceStream(symbol) {
             if (ws) ws.close();
-            if (symbol.includes("USD") && !symbol.includes("USDT")) {
-                let basePrice = symbol.includes("XAU") ? 2300 : 1.08; 
-                setInterval(() => { livePrice = basePrice + (Math.random() * 0.01 - 0.005); updatePNLs(); }, 1000);
-            } else {
-                ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@trade`);
-                ws.onmessage = (e) => { livePrice = parseFloat(JSON.parse(e.data).p); updatePNLs(); };
-            }
+            ws = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol.toLowerCase()}@trade`);
+            ws.onmessage = (e) => { livePrice = parseFloat(JSON.parse(e.data).p); updatePNLs(); };
         }
 
         function switchMarket(full, base, el) {
@@ -210,95 +207,41 @@ let wallet = demoBalance; // Active balance jo trade mein use hoga
 
         function openTrade(side) {
             const amt = parseFloat(document.getElementById('tAmt').value);
-            const tp = parseFloat(document.getElementById('tTP').value) || null;
-            const sl = parseFloat(document.getElementById('tSL').value) || null;
             if (amt > wallet) return alert("Insufficient Balance");
-
-            activeTrades.push({ id: Date.now(), sym: activeBaseSym, side: side, entry: livePrice, amt: amt, tp: tp, sl: sl });
+            activeTrades.push({ id: Date.now(), sym: activeBaseSym, side: side, entry: livePrice, amt: amt });
             renderTables();
-        }
-
-        // REPLACE / MODIFY LOGIC
-        function modifyTrade(id) {
-            const newTP = parseFloat(document.getElementById('tTP').value);
-            const newSL = parseFloat(document.getElementById('tSL').value);
-            const index = activeTrades.findIndex(t => t.id === id);
-
-            if (index > -1) {
-                if (!isNaN(newTP)) activeTrades[index].tp = newTP;
-                if (!isNaN(newSL)) activeTrades[index].sl = newSL;
-                alert("Target Updated!");
-                renderTables();
-            }
         }
 
         function renderTables() {
             const posList = document.getElementById('position-list');
             posList.innerHTML = activeTrades.map(t => `
                 <tr>
-                    <td>${t.sym} <br><small style="color:${t.side==='BUY'?'#2ebd85':'#f6465d'}">${t.side}</small></td>
+                    <td>${t.sym}<br><small style="color:${t.side==='BUY'?'#2ebd85':'#f6465d'}">${t.side}</small></td>
                     <td>${t.entry.toFixed(2)}</td>
-                    <td style="font-size:9px">S:${t.sl||'--'}<br>T:${t.tp||'--'}</td>
-                    <td id="pnl-${t.id}" class="pnl-up">0.00</td>
-                    <td class="action-btns">
-                        <button class="btn-m" onclick="modifyTrade(${t.id})" title="Replace/Modify">M</button>
-                        <button class="btn-x" onclick="closeManual(${t.id})">X</button>
-                    </td>
-                </tr>
-            `).join('');
-
-            const histList = document.getElementById('history-list');
-            histList.innerHTML = tradeHistory.map(h => `
-                <tr>
-                    <td>${h.sym}</td><td>${h.side}</td><td>CLOSED</td>
-                    <td class="${h.pnl >= 0 ? 'pnl-up' : 'pnl-down'}">${h.pnl.toFixed(2)}</td>
+                    <td>--</td>
+                    <td id="pnl-${t.id}">0.00</td>
+                    <td><button class="btn-x" onclick="closeManual(${t.id})">X</button></td>
                 </tr>
             `).join('');
         }
 
-                function updatePNLs() {
-            // Safety Check: Agar price abhi tak load nahi hua toh calculation mat karo
-            if (livePrice <= 0) return; 
-
+        function updatePNLs() {
+            if (livePrice <= 0) return;
             activeTrades.forEach((t, index) => {
                 const pnlEl = document.getElementById(`pnl-${t.id}`);
                 if (!pnlEl) return;
-                
                 let diff = (t.side === 'BUY') ? (livePrice - t.entry) : (t.entry - livePrice);
                 let pnl = diff * (t.amt / t.entry);
-                
                 pnlEl.innerText = pnl.toFixed(2);
                 pnlEl.className = pnl >= 0 ? "pnl-up" : "pnl-down";
-
-                // Improved Auto Close Logic with Safety
-                if (t.tp) {
-                    if (t.side === 'BUY' && livePrice >= t.tp) finalize(index, pnl);
-                    else if (t.side === 'SELL' && livePrice <= t.tp) finalize(index, pnl);
-                }
-                
-                if (t.sl) {
-                    if (t.side === 'BUY' && livePrice <= t.sl) finalize(index, pnl);
-                    else if (t.side === 'SELL' && livePrice >= t.sl) finalize(index, pnl);
-                }
             });
         }
 
-         function finalize(index, pnl) {
-    wallet += pnl;
-    
-    // Balance ko sahi bucket mein save karne ke liye
-    if (currentAccountType === 'DEMO') {
-        demoBalance = wallet;
-    } else {
-        realBalance = wallet;
-    }
-    
-    updateBalanceUI();
-    // ... baki ka trade history code
-         }
-         
+        function finalize(index, pnl) {
             wallet += pnl;
-            document.getElementById('wallet-balance').innerText = `Balance: $${wallet.toFixed(2)}`;
+            if (currentAccountType === 'DEMO') demoBalance = wallet;
+            else realBalance = wallet;
+            updateBalanceUI();
             tradeHistory.unshift({ ...activeTrades[index], pnl: pnl });
             activeTrades.splice(index, 1);
             renderTables();
@@ -313,7 +256,7 @@ let wallet = demoBalance; // Active balance jo trade mein use hoga
         }
 
         initChart(activeFullSymbol); startPriceStream(activeBaseSym);
-         
     </script>
+
 </body>
 </html>
