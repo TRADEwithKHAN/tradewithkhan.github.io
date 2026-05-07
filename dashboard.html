@@ -48,7 +48,16 @@
 
     <div class="header">
         <div class="logo-sq">TWK</div>
-        <div id="wallet-balance" style="font-weight: bold; color: #ffffff;">Balance: $10,000.00</div>
+        <div class="balance-card">
+    <small style="color: #FFD700; opacity: 0.8;">DEMO ACCOUNT</small>
+    <h1 id="user-balance">$10,000.00</h1>
+    
+    <div class="action-btns" style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+        <button class="btn-sm deposit" onclick="depositFunds()" style="background: #28a745; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer;">Deposit</button>
+        <button class="btn-sm withdraw" onclick="requestWithdraw()" style="background: #dc3545; color: white; border: none; padding: 8px 20px; border-radius: 5px; cursor: pointer;">Withdraw</button>
+    </div>
+</div>
+
     </div>
 
     <div class="asset-tabs">
