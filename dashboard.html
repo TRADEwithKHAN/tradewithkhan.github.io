@@ -1,83 +1,285 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trade With Khan | Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Trading Dashboard</title>
+    <!-- Tailwind CSS for Premium UI -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0b0f19; }
+        ::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
 </head>
-<body>
+<body class="bg-[#070a13] text-[#e2e8f0] antialiased min-h-screen flex">
 
-    <div class="header">
-         <div class="profile-icon" onclick="location.href='profile.html'" style="cursor:pointer;">
-            <img id="header-avatar" src="https://via.placeholder.com/150" style="width:35px; height:35px; border-radius:50%; border:1.5px solid #f0b90b; object-fit: cover;">
-         </div>
+    <!-- 1. SIDEBAR NAVIGATION -->
+    <aside class="w-64 bg-[#0b0f19] border-r border-[#1e293b] fixed h-full flex flex-col z-50">
+        <!-- Brand/Logo -->
+        <div class="p-6 border-b border-[#1e293b] flex items-center gap-3">
+            <div class="bg-blue-600 p-2 rounded-lg text-white">
+                <i class="fa-solid fa-chart-line-up text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg tracking-wide text-white">TWK Terminal</h1>
+                <span class="text-xs text-blue-400 font-medium tracking-wider uppercase">Premium Hub</span>
+            </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 p-4 space-y-1 overflow-y-auto">
+            <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Main Menu</p>
+            
+            <a href="#overview" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium bg-blue-600/10 text-blue-400 border border-blue-500/20 transition">
+                <i class="fa-solid fa-grid-2"></i> Dashboard Overview
+            </a>
+            <a href="daily key level.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-layer-group text-amber-400"></i> Daily Key Levels
+            </a>
+            <a href="signal and ebook.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-bolt text-green-400"></i> Signals & E-Books
+            </a>
+            <a href="news red folder.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-folder-open text-red-500"></i> News Red Folder
+            </a>
+            <a href="calculator.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-calculator text-blue-400"></i> Advanced Calculator
+            </a>
+            <a href="social media.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-share-nodes text-sky-400"></i> Social Media Hub
+            </a>
+
+            <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Education & Trust</p>
+            
+            <a href="beginner guide.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-book-open text-indigo-400"></i> Beginner Guide
+            </a>
+            <a href="examination &certificate.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-award text-purple-400"></i> Exam & Certificate
+            </a>
+            <a href="Our partner.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-handshake text-teal-400"></i> Our Partners
+            </a>
+            <a href="Donetion.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-400 hover:bg-[#151f32] hover:text-white transition">
+                <i class="fa-solid fa-heart text-rose-500"></i> Donation Support
+            </a>
+
+            <!-- SIDEBAR LEFT COPYRIGHT TEXT -->
+            <div class="px-3 pt-4 pb-2 text-[10px] text-gray-600 font-mono tracking-wider border-t border-[#1e293b]/40 mt-4">
+                Copyright © Sarimul Laskar
+            </div>
+        </nav>
+
+        <!-- Niche Left Profile Section -->
+        <div class="p-4 border-t border-[#1e293b] bg-[#090d16]">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center text-xs font-bold text-white">
+                        U
+                    </div>
+                    <div>
+                        <p class="text-xs font-semibold text-white">Premium Trader</p>
+                        <span class="text-[10px] text-green-400 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span> Verified</span>
+                    </div>
+                </div>
+                <a href="Register and login.html" class="text-gray-500 hover:text-red-400 p-1.5 rounded transition" title="Logout / Switch Account">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 pl-64 min-h-screen flex flex-col">
         
-        <div style="text-align: right;">
-            <select class="acc-select" id="account-type" onchange="switchAccount(this.value)">
-                <option value="DEMO">DEMO ACCOUNT</option>
-                <option value="REAL">REAL ACCOUNT</option>
-            </select>
-            <div id="user-balance" style="color:#f0b90b; font-weight:bold;">$10,000.00</div>
-        </div>
-    </div>
-
-    <div class="dep-with-row">
-        <button class="btn-sm" onclick="depositFunds()" style="background:#28a745;">Deposit</button>
-        <button class="btn-sm" onclick="requestWithdraw()" style="background:#dc3545;">Withdraw</button>
-    </div>
-
-    <div class="asset-tabs">
-        <div class="tab active" onclick="switchMarket('BINANCE:BTCUSDT', 'BTCUSDT', this)">BTC/USDT</div>
-        <div class="tab" onclick="switchMarket('FX:EURUSD', 'EURUSD', this)">EUR/USD</div>
-        <div class="tab" onclick="switchMarket('OANDA:XAUUSD', 'XAUUSD', this)">GOLD (XAU)</div>
-    </div>
-
-    <div class="chart-window" id="tv_chart_main"></div>
-
-    <div class="control-panel">
-        <div class="input-grid">
-            <div class="box"><label>Leverage</label><input type="number" id="tLev" value="10"></div>
-            <div class="box"><label>Amount</label><input type="number" id="tAmt" value="100"></div>
-            <div class="box"><label>TP/SL</label><input type="text" placeholder="Optional" disabled></div>
-        </div>
-        <div class="btn-row">
-            <button class="t-btn" onclick="openTrade('BUY')" style="background:#2ebd85;">BUY</button>
-            <button class="t-btn" onclick="openTrade('SELL')" style="background:#f6465d;">SELL</button>
-        </div>
-    </div>
-
-    <div class="data-area">
-        <table id="pos-table">
-            <thead><tr><th>Asset</th><th>Entry</th><th>PNL</th><th>Action</th></tr></thead>
-            <tbody id="position-list"></tbody>
-        </table>
-    </div>
-
-    <div id="payment-modal" style="display:none;">
-        <div class="modal-content">
-            <h2 style="color:#f0b90b;">Real Deposit</h2>
-            <div class="modal-tabs">
-                <button onclick="showPay('upi')" style="background:#28a745; color:white;">UPI / QR</button>
-                <button onclick="showPay('crypto')" style="background:#f0b90b; color:black;">USDT (TRC20)</button>
+        <!-- TOP HEADER BAR -->
+        <header class="h-16 border-b border-[#1e293b] bg-[#0b0f19]/80 backdrop-blur sticky top-0 flex items-center justify-between px-8 z-40">
+            <div class="flex items-center gap-4">
+                <h2 class="text-lg font-semibold text-white">Welcome Back, Trader!</h2>
             </div>
-            <div id="upi-pay" style="display:none;">
-                <img src="upi-qr.jpg" class="qr-img">
-                <p style="color:#f0b90b; font-size:12px;">ID: tradewithkhan@axl</p>
+            <div class="flex items-center gap-4">
+                <div class="bg-[#151f32] border border-[#1e293b] rounded-lg px-3 py-1.5 flex items-center gap-2 text-sm">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-gray-400">Live Market Feed:</span>
+                    <span class="text-green-400 font-mono font-medium">Connected</span>
+                </div>
             </div>
-            <div id="crypto-pay" style="display:none;">
-                <img src="usdt-qr.jpg" class="qr-img">
-                <input type="text" id="usdt-addr" value="TRGLcCVPYh322PFW9nTuqRf3XmoBkADGKy" readonly onclick="copyAddress()">
-            </div>
-            <div class="modal-footer">
-                <button onclick="closePay()">Cancel</button>
-                <button onclick="confirmPay()" style="background:#f0b90b; color:black;">I Have Paid</button>
-            </div>
-        </div>
-    </div>
+        </header>
 
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
+        <!-- DASHBOARD CONTENT SPACE -->
+        <div class="p-8 space-y-8 flex-1">
+
+            <!-- MODULE 1: QUICK OVERVIEW CARDS -->
+            <section id="overview" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Card 1: Key Levels -->
+                <div class="bg-[#0b0f19] border border-[#1e293b] p-5 rounded-xl hover:border-amber-500/40 transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-amber-500/10 rounded-lg text-amber-400">
+                            <i class="fa-solid fa-chart-line text-xl"></i>
+                        </div>
+                        <span class="text-[11px] bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded-full font-medium">Updated Today</span>
+                    </div>
+                    <h3 class="text-gray-400 text-sm font-medium mb-1">Daily Key Levels</h3>
+                    <p class="text-2xl font-bold text-white font-mono">3 Critical Zones</p>
+                    <a href="daily key level.html" class="mt-3 inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition">Analyze chart <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i></a>
+                </div>
+
+                <!-- Card 2: Live Premium Signals -->
+                <div class="bg-[#0b0f19] border border-[#1e293b] p-5 rounded-xl hover:border-green-500/40 transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-green-500/10 rounded-lg text-green-400">
+                            <i class="fa-solid fa-tower-broadcast text-xl"></i>
+                        </div>
+                        <span class="text-[11px] bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full font-medium animate-pulse">Active Now</span>
+                    </div>
+                    <h3 class="text-gray-400 text-sm font-medium mb-1">Premium Signals</h3>
+                    <p class="text-2xl font-bold text-white font-mono">89% Win Rate</p>
+                    <a href="signal and ebook.html" class="mt-3 inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition">Get Active Signals <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i></a>
+                </div>
+
+                <!-- Card 3: Red Folders Impact -->
+                <div class="bg-[#0b0f19] border border-[#1e293b] p-5 rounded-xl hover:border-red-500/40 transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-red-500/10 rounded-lg text-red-500">
+                            <i class="fa-solid fa-bullhorn text-xl"></i>
+                        </div>
+                        <span class="text-[11px] bg-red-500/10 text-red-400 px-2 py-0.5 rounded-full font-medium">High Volatility</span>
+                    </div>
+                    <h3 class="text-gray-400 text-sm font-medium mb-1">Economic News</h3>
+                    <p class="text-2xl font-bold text-white font-mono">2 Red Folders</p>
+                    <a href="news red folder.html" class="mt-3 inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition">View Calendar <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i></a>
+                </div>
+
+                <!-- Card 4: Academic Progress -->
+                <div class="bg-[#0b0f19] border border-[#1e293b] p-5 rounded-xl hover:border-purple-500/40 transition group">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="p-3 bg-purple-500/10 rounded-lg text-purple-400">
+                            <i class="fa-solid fa-graduation-cap text-xl"></i>
+                        </div>
+                        <span class="text-[11px] bg-purple-500/10 text-purple-400 px-2 py-0.5 rounded-full font-medium">Certification</span>
+                    </div>
+                    <h3 class="text-gray-400 text-sm font-medium mb-1">Your Academy Status</h3>
+                    <p class="text-2xl font-bold text-white font-mono">Ready for Exam</p>
+                    <a href="examination &certificate.html" class="mt-3 inline-flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition">Take Test <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i></a>
+                </div>
+            </section>
+
+            <!-- TWO COLUMN DETAILED ROW -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- LEFT & CENTER COLUMN -->
+                <div class="lg:col-span-2 space-y-8">
+                    
+                    <!-- MODULE 2: DAILY KEY LEVEL DISPLAY PREVIEW -->
+                    <div class="bg-[#0b0f19] border border-[#1e293b] rounded-xl p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-chart-simple text-amber-400"></i> Daily Key Levels Preview
+                            </h3>
+                            <a href="daily key level.html" class="text-xs bg-[#151f32] text-gray-300 px-3 py-1.5 rounded-lg border border-[#1e293b] hover:bg-blue-600 hover:text-white transition">Full Chart View</a>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3.5 bg-[#0e1626] rounded-xl border-l-4 border-red-500">
+                                <span class="font-medium text-sm">Major Resistance (R1)</span>
+                                <span class="font-mono text-sm text-red-400 bg-red-500/10 px-2.5 py-1 rounded-md">1.09250</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3.5 bg-[#0e1626] rounded-xl border-l-4 border-blue-500">
+                                <span class="font-medium text-sm">Pivot Equilibrium Zone</span>
+                                <span class="font-mono text-sm text-blue-400 bg-blue-500/10 px-2.5 py-1 rounded-md">1.08500</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3.5 bg-[#0e1626] rounded-xl border-l-4 border-green-500">
+                                <span class="font-medium text-sm">Major Support Zone (S1)</span>
+                                <span class="font-mono text-sm text-green-400 bg-green-500/10 px-2.5 py-1 rounded-md">1.07800</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MODULE 3: SIGNALS & PREMIUM EBOOKS DOWNLOADS -->
+                    <div class="bg-[#0b0f19] border border-[#1e293b] rounded-xl p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-base font-semibold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-book text-indigo-400"></i> Premium Resources (E-Books & Signals)
+                            </h3>
+                            <span class="text-xs text-gray-400">2 New Uploads</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Ebook item -->
+                            <div class="p-4 bg-[#0e1626] border border-[#1e293b] rounded-xl flex items-center justify-between hover:border-indigo-500/40 transition">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">SMC Mastery Guide</h4>
+                                        <p class="text-xs text-gray-400">Advanced Price Action</p>
+                                    </div>
+                                </div>
+                                <a href="signal and ebook.html" class="p-2 bg-[#151f32] hover:bg-indigo-600 text-gray-300 hover:text-white rounded-lg transition">
+                                    <i class="fa-solid fa-download text-xs"></i>
+                                </a>
+                            </div>
+                            <!-- Signal item -->
+                            <div class="p-4 bg-[#0e1626] border border-[#1e293b] rounded-xl flex items-center justify-between hover:border-green-500/40 transition">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-green-500/10 text-green-400 flex items-center justify-center text-lg">
+                                        <i class="fa-solid fa-arrow-trend-up"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">XAUUSD Buy Alert</h4>
+                                        <p class="text-xs text-green-400 font-mono">Target: +150 Pips</p>
+                                    </div>
+                                </div>
+                                <a href="signal and ebook.html" class="px-3 py-1.5 bg-green-600/20 text-green-400 font-medium text-xs rounded-lg hover:bg-green-600 hover:text-white transition">
+                                    View
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDEBAR COLUMN -->
+                <div class="space-y-8">
+                    
+                    <!-- MODULE 4: INTEGRATED CALCULATOR SHORTCUT -->
+                    <div class="bg-[#0b0f19] border border-[#1e293b] rounded-xl p-6">
+                        <h3 class="text-base font-semibold text-white flex items-center gap-2 mb-4">
+                            <i class="fa-solid fa-calculator text-blue-400"></i> Smart Risk Calculator
+                        </h3>
+                        <p class="text-xs text-gray-400 mb-4">Calculate optimum position lot sizes instantly before placing any orders.</p>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Account Balance ($)</label>
+                                <input type="number" placeholder="10000" class="w-full bg-[#0e1626] border border-[#1e293b] rounded-lg p-2 text-sm text-white font-mono focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 block mb-1">Risk Percentage (%)</label>
+                                <input type="number" placeholder="1" class="w-full bg-[#0e1626] border border-[#1e293b] rounded-lg p-2 text-sm text-white font-mono focus:outline-none focus:border-blue-500">
+                            </div>
+                            <a href="calculator.html" class="w-full block text-center bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-2.5 rounded-lg transition mt-2">
+                                Open Full Calculator
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- MODULE 5: BEGINNER GUIDE CONTINUATION STATUS -->
+                    <div class="bg-[#0b0f19] border border-[#1e293b] rounded-xl p-6">
+                        <h3 class="text-base font-semibold text-white flex items-center gap-2 mb-3">
+                            <i class="fa-solid fa-graduation-cap text-indigo-400"></i> Beginner Academy Roadmap
+                        </h3>
+                        <div class="mb-4 bg-[#0e1626] rounded-full h-2 overflow-hidden border border-[#1e293b]">
+                            <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full w-[65%]"></div>
+                        </div>
+                        <div class="flex justify-between items-center text-xs mb-4">
+                            <span class="text-gray-400">Overall Progress:</span>
+                            <span class="font-bold text-indigo-400 font-mono">65% Completed</span>
+                        </div>
+                        <a href="beginner guide.html" class="w-full block text-center border border-[#1e293b] bg-[#151f32] text-gray-300 hover:text-white text-xs font-semibold py-2.5 rounded-lg transition">
+                            Continue Learning Guide
+             
