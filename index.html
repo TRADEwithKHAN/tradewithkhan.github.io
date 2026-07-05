@@ -1,2 +1,272 @@
- <h1>Hello World!</h1>
-<a href="Dashboard.html">Go to Dashboard</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TWK Terminal - Access Portal</title>
+    <!-- Tailwind CSS for Premium Styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Visual Elements -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Supabase JS Client library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: radial-gradient(circle at top right, #101827 0%, #070a13 100%);
+        }
+        .glass-box {
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(30, 41, 59, 0.8);
+        }
+        /* Custom Loader */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border-left-color: #f59e0b;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-[#e2e8f0] antialiased min-h-screen flex items-center justify-center p-4">
+
+    <!-- AUTHENTICATION CONTAINER -->
+    <div class="w-full max-w-md glass-box rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+        
+        <!-- Animated Backdrop Light Blob -->
+        <div class="absolute -right-20 -top-20 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -left-20 -bottom-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+
+        <!-- Portal Brand Logo & Header -->
+        <div class="text-center mb-8 relative z-10">
+            <div class="inline-flex bg-blue-600/10 text-blue-400 p-3.5 rounded-2xl border border-blue-500/20 mb-3">
+                <i class="fa-solid fa-chart-line-up text-2xl"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-white tracking-wide">TWK Terminal</h1>
+            <p id="auth-subtitle" class="text-xs text-gray-400 mt-1.5">Sign in to access your trading setups and learning portal</p>
+        </div>
+
+        <!-- GLOBAL ALERT/FEEDBACK NOTIFICATION ZONE -->
+        <div id="auth-notification" class="hidden mb-6 p-4 rounded-xl text-xs font-semibold flex items-start gap-2.5 transition-all duration-300">
+            <!-- Dynamic Icon & Text will be injected here -->
+        </div>
+
+        <!-- SIGN IN / LOG IN FORM -->
+        <form id="login-form" class="space-y-4 relative z-10">
+            <div class="space-y-1">
+                <label class="text-xs font-semibold text-gray-400 block"><i class="fa-solid fa-envelope mr-1.5"></i> Email Address</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"><i class="fa-solid fa-at"></i></span>
+                    <input type="email" id="login-email" required placeholder="trader@example.com" class="w-full bg-[#151f32]/40 border border-[#1e293b] rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 focus:bg-[#151f32]/60 transition-colors">
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <div class="flex justify-between items-center">
+                    <label class="text-xs font-semibold text-gray-400"><i class="fa-solid fa-key mr-1.5"></i> Password</label>
+                    <a href="#" onclick="triggerForgotPassword()" class="text-[10px] text-blue-400 hover:underline">Forgot password?</a>
+                </div>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="login-password" required placeholder="••••••••" class="w-full bg-[#151f32]/40 border border-[#1e293b] rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-blue-500 focus:bg-[#151f32]/60 transition-colors">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-xs tracking-wider uppercase py-3.5 rounded-xl transition duration-200 shadow-lg shadow-blue-600/10 flex items-center justify-center gap-2 cursor-pointer">
+                <span id="login-btn-text">Access Dashboard</span>
+                <span id="login-btn-spinner" class="spinner hidden"></span>
+            </button>
+
+            <p class="text-center text-xs text-gray-400 pt-4">
+                Don't have an account? 
+                <a href="#" onclick="toggleAuthMode('register')" class="text-amber-400 font-semibold hover:underline">Create Account</a>
+            </p>
+        </form>
+
+        <!-- SIGN UP / REGISTER FORM (Initially Hidden) -->
+        <form id="register-form" class="space-y-4 relative z-10 hidden">
+            <div class="space-y-1">
+                <label class="text-xs font-semibold text-gray-400 block"><i class="fa-solid fa-user-pen mr-1.5"></i> Your Full Name</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"><i class="fa-solid fa-signature"></i></span>
+                    <input type="text" id="register-name" required placeholder="e.g. Rahul Kumar" class="w-full bg-[#151f32]/40 border border-[#1e293b] rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 focus:bg-[#151f32]/60 transition-colors">
+                </div>
+                <p class="text-[9px] text-gray-500 italic">This name will be directly printed on your certification certificate.</p>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-semibold text-gray-400 block"><i class="fa-solid fa-envelope mr-1.5"></i> Email Address</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"><i class="fa-solid fa-at"></i></span>
+                    <input type="email" id="register-email" required placeholder="trader@example.com" class="w-full bg-[#151f32]/40 border border-[#1e293b] rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 focus:bg-[#151f32]/60 transition-colors">
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-xs font-semibold text-gray-400 block"><i class="fa-solid fa-key mr-1.5"></i> Password</label>
+                <div class="relative">
+                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-xs"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" id="register-password" required placeholder="At least 6 characters" minlength="6" class="w-full bg-[#151f32]/40 border border-[#1e293b] rounded-xl pl-10 pr-4 py-3 text-sm text-white focus:outline-none focus:border-amber-500 focus:bg-[#151f32]/60 transition-colors">
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-gradient-to-r from-amber-500 to-yellow-600 hover:from-amber-600 hover:to-yellow-700 text-[#070a13] font-black text-xs tracking-wider uppercase py-3.5 rounded-xl transition duration-200 shadow-lg shadow-amber-500/10 flex items-center justify-center gap-2 cursor-pointer">
+                <span id="register-btn-text">Register Account</span>
+                <span id="register-btn-spinner" class="spinner hidden" style="border-left-color: #070a13;"></span>
+            </button>
+
+            <p class="text-center text-xs text-gray-400 pt-4">
+                Already have an account? 
+                <a href="#" onclick="toggleAuthMode('login')" class="text-blue-400 font-semibold hover:underline">Log In</a>
+            </p>
+        </form>
+
+    </div>
+
+    <!-- SUPABASE FUNCTIONALITY IMPLEMENTATION -->
+    <script>
+        // Initialize Supabase Client with credentials
+        const SUPABASE_URL = "https://rsjgrotznorgavudjpsp.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_0zxG8sugxvwEKpBMhII87Q_HBOqwtM9";
+        
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Helper to switch forms smoothly
+        function toggleAuthMode(mode) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            const subtitle = document.getElementById('auth-subtitle');
+            const notification = document.getElementById('auth-notification');
+
+            notification.classList.add('hidden'); // Clear notifications on toggle
+
+            if (mode === 'register') {
+                loginForm.classList.add('hidden');
+                registerForm.classList.remove('hidden');
+                subtitle.innerText = "Register your official trading parameters to get verified";
+            } else {
+                registerForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                subtitle.innerText = "Sign in to access your trading setups and learning portal";
+            }
+        }
+
+        // Custom notification helper
+        function displayNotification(type, message) {
+            const notif = document.getElementById('auth-notification');
+            notif.classList.remove('hidden', 'bg-red-500/10', 'text-red-400', 'border', 'border-red-500/20', 'bg-emerald-500/10', 'text-emerald-400', 'border-emerald-500/20');
+
+            if (type === 'error') {
+                notif.classList.add('bg-red-500/10', 'text-red-400', 'border', 'border-red-500/20');
+                notif.innerHTML = `<i class="fa-solid fa-circle-exmark mt-0.5"></i> <span>${message}</span>`;
+            } else if (type === 'success') {
+                notif.classList.add('bg-emerald-500/10', 'text-emerald-400', 'border', 'border-emerald-500/20');
+                notif.innerHTML = `<i class="fa-solid fa-circle-check mt-0.5"></i> <span>${message}</span>`;
+            }
+        }
+
+        // 1. REGISTER LOGIC
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('register-name').value.trim();
+            const email = document.getElementById('register-email').value.trim();
+            const password = document.getElementById('register-password').value;
+
+            // Loader State ON
+            document.getElementById('register-btn-text').innerText = "Registering...";
+            document.getElementById('register-btn-spinner').classList.remove('hidden');
+
+            const { data, error } = await supabaseClient.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        full_name: fullName
+                    }
+                }
+            });
+
+            // Loader State OFF
+            document.getElementById('register-btn-text').innerText = "Register Account";
+            document.getElementById('register-btn-spinner').classList.add('hidden');
+
+            if (error) {
+                displayNotification('error', error.message);
+            } else {
+                // Supabase returns user successfully, checks if email confirmation is required
+                if (data.user && data.session === null) {
+                    displayNotification('success', "Registration initiated! Please check your email inbox to confirm your account, then log in.");
+                } else if (data.user && data.session !== null) {
+                    // Direct sign-up without email confirmation
+                    localStorage.setItem('twk_user_name', fullName);
+                    localStorage.setItem('twk_user_email', email);
+                    displayNotification('success', "Registration Successful! Logging you in...");
+                    setTimeout(() => {
+                        window.location.href = "Dashboard.html";
+                    }, 1500);
+                }
+            }
+        });
+
+        // 2. LOGIN LOGIC
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+
+            // Loader State ON
+            document.getElementById('login-btn-text').innerText = "Verifying...";
+            document.getElementById('login-btn-spinner').classList.remove('hidden');
+
+            const { data, error } = await supabaseClient.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            // Loader State OFF
+            document.getElementById('login-btn-text').innerText = "Access Dashboard";
+            document.getElementById('login-btn-spinner').classList.add('hidden');
+
+            if (error) {
+                displayNotification('error', error.message);
+            } else {
+                // Successful verification
+                const retrievedName = data.user.user_metadata?.full_name || "Premium Trader";
+                localStorage.setItem('twk_user_name', retrievedName);
+                localStorage.setItem('twk_user_email', email);
+
+                displayNotification('success', `Welcome back, ${retrievedName}! Redirecting to TWK Dashboard...`);
+                setTimeout(() => {
+                    window.location.href = "Dashboard.html";
+                }, 1200);
+            }
+        });
+
+        // 3. PASSWORD FORGOT TRIGGER TRIGGER
+        async function triggerForgotPassword() {
+            const email = prompt("Enter your registered email address to reset password:");
+            if (!email) return;
+
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                redirectTo: window.location.origin + '/reset-password.html'
+            });
+
+            if (error) {
+                alert("Error sending reset link: " + error.message);
+            } else {
+                alert("If registered, a secure password reset link has been dispatched to your email address.");
+            }
+        }
+    </script>
+</body>
+</html>
