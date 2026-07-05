@@ -1,0 +1,151 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Our Mission - Trade With Khan</title>
+    <!-- Tailwind CSS For Premium UI -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070a13; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        
+        .premium-card {
+            background: #0b0f19;
+            border: 1px solid #1e293b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .premium-card:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-[#070a13] text-[#e2e8f0] antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- TOP HEADER NAVIGATION -->
+    <header class="h-16 border-b border-[#1e293b] bg-[#0b0f19]/80 backdrop-blur sticky top-0 flex items-center justify-between px-6 sm:px-12 z-40">
+        <div class="flex items-center gap-2.5">
+            <a href="Dashboard.html" class="text-gray-400 hover:text-white transition text-sm mr-2"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+            <div class="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></div>
+            <h1 class="font-black text-sm tracking-wider text-white uppercase">TWK TERMINAL SUPPORT</h1>
+        </div>
+        <div class="text-xs bg-rose-500/10 text-rose-400 font-bold px-3 py-1 rounded-md border border-rose-500/20">
+            <i class="fa-solid fa-heart mr-1"></i> Community Driven
+        </div>
+    </header>
+
+    <!-- MAIN DONATION SECTION -->
+    <main class="max-w-3xl mx-auto p-4 sm:p-8 space-y-10 my-auto">
+        
+        <!-- HEARTFELT INTRO BLOCK (MODIFIED) -->
+        <div class="text-center space-y-4 max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-rose-500/10 text-rose-500 rounded-full flex items-center justify-center text-2xl mx-auto border border-rose-500/20 shadow-lg shadow-rose-500/5">
+                <i class="fa-solid fa-rocket animate-pulse"></i>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Support For Motivation & Website Improvement</h2>
+            <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                Our custom-built calculative risk modules, analytical interfaces, and structured educational materials are designed to empower independent retail traders. Your contributions act as a powerful motivation for us to scale this infrastructure and continuously improve our website with advanced modules, smoother interfaces, and robust tools. Stand with us to keep developing a premium web terminal.
+            </p>
+        </div>
+
+        <!-- PAYMENT METHODS GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- METHOD 1: FIAT / UPI GATEWAY -->
+            <div class="premium-card rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                <div class="space-y-2">
+                    <span class="text-[10px] bg-amber-500/10 text-amber-400 font-bold px-2.5 py-1 rounded-md border border-amber-500/20 uppercase tracking-wider">Option A</span>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2"><i class="fa-solid fa-qrcode text-amber-400"></i> UPI Terminal Scan</h3>
+                    <p class="text-xs text-gray-400">Scan via any UPI App (GPay, PhonePe, Paytm) or copy the VPA handle below.</p>
+                </div>
+
+                <!-- UPI Details Row -->
+                <div class="space-y-3 bg-[#070a13] p-3 rounded-xl border border-[#1e293b]">
+                    <div class="space-y-1">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Official Kotak UPI ID</span>
+                        <div class="flex items-center justify-between bg-[#0b0f19] px-2.5 py-1.5 rounded-lg border border-[#1e293b]">
+                            <span id="upi-id" class="font-mono text-xs text-amber-400 font-bold">Tradewithkhan@kotak</span>
+                            <button onclick="copyToClipboard('upi-id')" class="text-[11px] text-gray-400 hover:text-white cursor-pointer"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="space-y-0.5">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Verified Beneficiary</span>
+                        <span class="text-xs text-white font-medium">Sarimul Laskar</span>
+                    </div>
+                </div>
+
+                <!-- Live Dynamic QR Code Framework -->
+                <div class="bg-[#070a13] border border-dashed border-[#1e293b] p-6 rounded-xl flex flex-col items-center justify-center text-center space-y-2">
+                    <div class="w-28 h-28 bg-white p-1 rounded-lg shadow-inner relative flex items-center justify-center">
+                        <div class="w-full h-full bg-cover opacity-95" style="background-image: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=Tradewithkhan@kotak&pn=Sarimul%20Laskar&cu=INR');"></div>
+                    </div>
+                    <span class="text-[10px] text-gray-500 font-mono tracking-wide">Scan to Support Website Growth</span>
+                </div>
+            </div>
+
+            <!-- METHOD 2: CRYPTOCURRENCY BALANCES -->
+            <div class="premium-card rounded-2xl p-6 flex flex-col justify-between space-y-6">
+                <div class="space-y-2">
+                    <span class="text-[10px] bg-sky-500/10 text-sky-400 font-bold px-2.5 py-1 rounded-md border border-sky-500/20 uppercase tracking-wider">Option B</span>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2"><i class="fa-brands fa-bitcoin text-sky-400"></i> Crypto Network Wallets</h3>
+                    <p class="text-xs text-gray-400">Ensure network parameters match perfectly before initiating terminal transactions.</p>
+                </div>
+
+                <!-- Crypto Details Rows -->
+                <div class="space-y-3 bg-[#070a13] p-3 rounded-xl border border-[#1e293b]">
+                    <div class="space-y-1">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">USDT Address (Network: TRC-20)</span>
+                        <div class="flex items-center justify-between bg-[#0b0f19] px-2.5 py-1.5 rounded-lg border border-[#1e293b]">
+                            <span id="usdt-addr" class="font-mono text-[10px] text-sky-400 truncate max-w-[180px]">TRGLcCVPYh322PFW9nTuqRf3XmoBkADGKy</span>
+                            <button onclick="copyToClipboard('usdt-addr')" class="text-[11px] text-gray-400 hover:text-white cursor-pointer"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-[9px] font-bold text-gray-500 uppercase tracking-wider block">Bitcoin Address (Network: BTC)</span>
+                        <div class="flex items-center justify-between bg-[#0b0f19] px-2.5 py-1.5 rounded-lg border border-[#1e293b]">
+                            <span id="btc-addr" class="font-mono text-[10px] text-purple-400 truncate max-w-[180px]">bc1qlk9cjpczp2lwv8axw553t2msk42j2nedssfss7</span>
+                            <button onclick="copyToClipboard('btc-addr')" class="text-[11px] text-gray-400 hover:text-white cursor-pointer"><i class="fa-regular fa-copy"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Crypto QR Scanner Framework based on TRC20 -->
+                <div class="bg-[#070a13] border border-dashed border-[#1e293b] p-6 rounded-xl flex flex-col items-center justify-center text-center space-y-2">
+                    <div class="w-28 h-28 bg-white p-1 rounded-lg shadow-inner flex items-center justify-center">
+                        <div class="w-full h-full bg-cover opacity-95" style="background-image: url('https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=TRGLcCVPYh322PFW9nTuqRf3XmoBkADGKy');"></div>
+                    </div>
+                    <span class="text-[10px] text-gray-500 font-mono tracking-wide">Scan for Verified TRC20 Wallet</span>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- COMPACT FOOTER SYSTEM -->
+    <footer class="p-6 text-center text-xs text-gray-600 font-mono border-t border-[#1e293b] max-w-3xl mx-auto w-full">
+        <div>Thank you for keeping us motivated to build better trading modules.</div>
+        <div class="text-[10px] text-gray-700 mt-1">Copyright @Sarimul Laskar &bull; TWK Terminal Development</div>
+    </footer>
+
+    <!-- HELPER SCRIPT FOR COPY INTERACTION CONTROL -->
+    <script>
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("📋 Address copied successfully:\n" + textToCopy);
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
+
