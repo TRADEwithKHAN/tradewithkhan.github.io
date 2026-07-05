@@ -1,0 +1,162 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade With Khan - Beginner Guide</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-[#0b0e11] text-gray-200 font-sans min-h-screen overflow-y-auto py-6 px-4 scrollbar-thin">
+
+    <!-- HEADER -->
+    <header class="text-center my-2 flex-shrink-0">
+        <span class="text-[10px] bg-amber-500/10 text-amber-400 font-black px-3 py-1 rounded-full uppercase tracking-widest border border-amber-500/20">
+            <i class="fa-solid fa-triangle-exclamation mr-1 animate-pulse"></i> Rule No. 1: Capital Preservation
+        </span>
+        <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500 mt-3">
+            BEGINNER'S MUST READ
+        </h1>
+        <p class="text-gray-400 text-xs mt-1">4 Golden Pillars to Survive & Conquer the Markets</p>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-xl w-full mx-auto space-y-5 my-5">
+        
+        <!-- CARD 1: RISK RULE -->
+        <section class="bg-[#161a1e] border-l-4 border-rose-500 rounded-r-2xl rounded-l-md p-4 shadow-xl space-y-2">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-rose-500/10 text-rose-500 rounded-lg flex items-center justify-center font-bold text-sm">1</div>
+                <h2 class="text-sm font-black uppercase tracking-wider text-white">Strict 1% to 2% Risk Rule</h2>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                If your total account balance is <span class="text-white font-bold">$1,000</span>, your maximum loss on any single trade should never exceed <span class="text-rose-400 font-bold">$10 (1%)</span>. Beginners often blow their entire capital in a few trades due to oversized lot choices. Always consult the <a href="calculator.html" class="text-amber-400 underline font-medium">Lot Size Calculator</a> before executing any trade!
+            </p>
+        </section>
+
+        <!-- CARD 2: TREND -->
+        <section class="bg-[#161a1e] border-l-4 border-amber-500 rounded-r-2xl rounded-l-md p-4 shadow-xl space-y-2">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-amber-500/10 text-amber-500 rounded-lg flex items-center justify-center font-bold text-sm">2</div>
+                <h2 class="text-sm font-black uppercase tracking-wider text-white">The Trend is Your Friend</h2>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                Never trade against the prevailing market momentum. If the market structure is in a clear Up-trend (Bullish), focus solely on finding Buy setups. If it is in a Down-trend (Bearish), look for Sell execution zones. Counter-trend trading is highly risky and often leads to unnecessary stop-out liquidations.
+            </p>
+        </section>
+
+        <!-- CARD 3: REVENGE TRADING -->
+        <section class="bg-[#161a1e] border-l-4 border-emerald-500 rounded-r-2xl rounded-l-md p-4 shadow-xl space-y-2">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-emerald-500/10 text-emerald-500 rounded-lg flex items-center justify-center font-bold text-sm">3</div>
+                <h2 class="text-sm font-black uppercase tracking-wider text-white">Eliminate Revenge Trading</h2>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                Losses are an inevitable business expense in trading. If your Stop-Loss gets hit, accept the market's outcome and step away from the charts. Do not immediately enter random, emotional positions trying to "win back" your lost capital. Treat trading as an objective data-driven business, not an emotional gamble.
+            </p>
+        </section>
+
+        <!-- CARD 4: NEWS EVENTS (FIXED UP & CLOSED PROPERLY) -->
+        <section class="bg-[#161a1e] border-l-4 border-cyan-500 rounded-r-2xl rounded-l-md p-4 shadow-xl space-y-2">
+            <div class="flex items-center gap-2">
+                <div class="w-7 h-7 bg-cyan-500/10 text-cyan-500 rounded-lg flex items-center justify-center font-bold text-sm">4</div>
+                <h2 class="text-sm font-black uppercase tracking-wider text-white">Avoid High-Impact News Events</h2>
+            </div>
+            <p class="text-xs text-gray-400 leading-relaxed">
+                Major institutional macro releases (such as FOMC, CPI, or NFP) create extreme volatility spikes that can completely override short-term technical setups. As a beginner, secure your capital by closing active positions before red-folder data releases. Monitor data cycles using our automated <a href="news.html" class="text-amber-400 underline font-medium">Live News Hub</a>.
+            </p>
+        </section>
+
+        <!-- CARD 5: INTERACTIVE MINDSET TEST -->
+        <section class="bg-[#161a1e] border border-[#2b3139] rounded-2xl p-4 shadow-xl space-y-3">
+            <div class="flex items-center gap-2 border-b border-gray-800 pb-2">
+                <i class="fa-solid fa-brain text-amber-400"></i>
+                <h2 class="text-xs font-black uppercase tracking-wider text-white">Interactive Mindset Test</h2>
+            </div>
+            <p class="text-[11px] text-gray-400">Quick Scenario: The market just hit your Stop-Loss. What will you do next?</p>
+            
+            <div class="space-y-2" id="quiz-container">
+                <button onclick="checkAnswer(false, this)" class="w-full text-left bg-[#1e2329] hover:bg-[#222830] border border-[#2b3139] rounded-xl p-2.5 text-xs text-gray-300 transition-all cursor-pointer">
+                    A) Open a double lot size trade immediately to recover the money.
+                </button>
+                <button onclick="checkAnswer(true, this)" class="w-full text-left bg-[#1e2329] hover:bg-[#222830] border border-[#2b3139] rounded-xl p-2.5 text-xs text-gray-300 transition-all cursor-pointer">
+                    B) Step away from the charts, accept the loss, and review my plan later.
+                </button>
+                <button onclick="checkAnswer(false, this)" class="w-full text-left bg-[#1e2329] hover:bg-[#222830] border border-[#2b3139] rounded-xl p-2.5 text-xs text-gray-300 transition-all cursor-pointer">
+                    C) Switch to a different random asset and trade without analysis.
+                </button>
+            </div>
+            <p id="quiz-feedback" class="text-[11px] font-bold text-center text-gray-300 mt-2 hidden"></p>
+        </section>
+
+        <!-- CARD 6: PRE-TRADE CHECKLIST -->
+        <section class="bg-[#161a1e] border border-[#2b3139] rounded-2xl p-4 shadow-xl space-y-3">
+            <div class="flex items-center gap-2 border-b border-gray-800 pb-2">
+                <i class="fa-solid fa-list-check text-emerald-400"></i>
+                <h2 class="text-xs font-black uppercase tracking-wider text-white">Pre-Trade Checklist</h2>
+            </div>
+            <p class="text-[11px] text-gray-400 mb-2">Check these items before clicking BUY or SELL:</p>
+            
+            <div class="space-y-2">
+                <label class="flex items-center gap-3 bg-[#1e2329]/50 p-2 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                    <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
+                    <span class="text-xs text-gray-300">Did I check for upcoming High-Impact News?</span>
+                </label>
+                <label class="flex items-center gap-3 bg-[#1e2329]/50 p-2 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                    <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
+                    <span class="text-xs text-gray-300">Is my Stop-Loss configured inside the calculator?</span>
+                </label>
+                <label class="flex items-center gap-3 bg-[#1e2329]/50 p-2 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                    <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
+                    <span class="text-xs text-gray-300">Am I trading with the trend instead of fighting it?</span>
+                </label>
+                <label class="flex items-center gap-3 bg-[#1e2329]/50 p-2 rounded-xl border border-gray-800/60 cursor-pointer select-none">
+                    <input type="checkbox" class="accent-amber-500 w-4 h-4 rounded">
+                    <span class="text-xs text-gray-300">Am I calm and emotionally ready to accept a loss if it happens?</span>
+                </label>
+            </div>
+        </section>
+
+        <!-- PRO TIP BOX -->
+        <div class="bg-gradient-to-r from-amber-500/10 to-yellow-500/5 border border-amber-500/20 rounded-2xl p-4 text-center space-y-1 relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-1 bg-amber-500 text-black font-black text-[8px] uppercase tracking-wider rounded-bl-lg">Pro Tip</div>
+            <p class="text-xs font-bold text-amber-400"><i class="fa-solid fa-graduation-cap mr-1"></i> Master Demo Environments First</p>
+            <p class="text-[11px] text-gray-400 leading-relaxed">Before exposing your hard-earned real capital to market volatility, spend a minimum of 4 weeks strictly practicing chart layout mechanics, order execution flows, and indicator behaviors inside a paper/demo environment.</p>
+        </div>
+
+    </main>
+
+    <!-- FOOTER NAV -->
+    <footer class="w-full max-w-xl mx-auto text-center border-t border-[#2b3139] pt-4 mt-4 flex-shrink-0">
+        <a href="menu.html" class="inline-flex items-center gap-2 text-xs text-amber-400 hover:underline">
+            <i class="fa-solid fa-arrow-left"></i> Back to Hub Menu
+        </a>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT ENGINE (SAFELY FIXED) -->
+    <script>
+        function checkAnswer(isCorrect, element) {
+            const feedback = document.getElementById('quiz-feedback');
+            const buttons = document.querySelectorAll('#quiz-container button');
+            
+            // Disable all buttons after choice
+            buttons.forEach(btn => {
+                btn.removeAttribute('onclick');
+                btn.className = "w-full text-left bg-gray-900/40 border border-gray-800 text-gray-600 rounded-xl p-2.5 text-xs";
+            });
+
+            feedback.classList.remove('hidden');
+            if(isCorrect) {
+                element.className = "w-full text-left bg-emerald-950/40 border border-emerald-500/50 text-emerald-400 rounded-xl p-2.5 text-xs font-bold shadow-md";
+                feedback.innerText = "Excellent! You have the patience of a professional trader. Protect capital first.";
+                feedback.className = "text-[11px] font-bold text-center text-emerald-400 mt-2";
+            } else {
+                element.className = "w-full text-left bg-rose-950/40 border border-rose-500/50 text-rose-400 rounded-xl p-2.5 text-xs font-bold shadow-md";
+                feedback.innerText = "Incorrect. That behavior leads to a blown account. The correct choice is B.";
+                feedback.className = "text-[11px] font-bold text-center text-rose-400 mt-2";
+            }
+        }
+    </script>
+
+</body>
+</html>
