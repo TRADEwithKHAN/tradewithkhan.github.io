@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en" id="main-html" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade With Khan - Certification Portal</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .trendline-chart {
+            background: #0f1216;
+            border: 1px solid #2b3139;
+            position: relative;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        /* Custom scrollbar for premium terminal look */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #161a1e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2b3139;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f59e0b;
+        }
+        
+        /* CANVA STYLE LUXURY PREMIUM CERTIFICATE DESIGN */
+        .canva-certificate {
+            background: #ffffff;
+            color: #1a1a1a;
+            position: relative;
+            border: 16px solid #1e2329;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            font-family: 'Georgia', serif;
+        }
+        .canva-inner-border {
+            border: 2px solid #c9a054;
+            padding: 30px;
+            height: 100%;
+            position: relative;
+        }
+        .signature-font {
+            font-family: 'Brush Script MT', 'Lucida Handwriting', cursive;
+        }
+    </style>
+</head>
+<body class="bg-[#0b0e11] text-gray-200 font-sans min-h-screen pb-12 transition-colors duration-300">
+
+    <header class="bg-[#161a1e] border-b border-[#2b3139] px-4 py-4 sticky top-0 z-40 flex items-center justify-between shadow-md">
+        <div class="flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            <h1 class="text-base font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">TWK TESTING PORTAL</h1>
+        </div>
+        <div class="flex items-center gap-2 text-xs bg-amber-500/10 text-amber-400 font-bold px-3 py-1 rounded-md border border-amber-500/20">
+            <i class="fa-solid fa-shield-halved mr-1"></i> MAX MARKS: 200
+        </div>
+    </header>
+
+    <main class="max-w-xl mx-auto p-4 space-y-4">
+
+        <div class="space-y-4">
+            
+            <div id="cert-lock-screen" class="bg-[#161a1e] border border-[#2b3139] rounded-2xl p-5 space-y-4 shadow-xl">
+                <div class="text-center py-2 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-amber-500/10 text-amber-400 rounded-full flex items-center justify-center text-lg mx-auto mb-2">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="text-base font-black text-white uppercase tracking-wider">TWK Verification Exam</h3>
+                    <p class="text-[12px] text-gray-400 mt-1">Total Questions: <span class="text-white font-bold">25</span> | Pass Mark: <span class="text-emerald-400 font-bold">> 150 Marks</span></p>
+                    <div id="score-feedback" class="mt-4 p-4 text-center rounded-xl text-xs font-bold hidden"></div>
+                </div>
+
+                <form id="quiz-form" class="space-y-6 text-left">
+
+                    <!-- USER NAME INPUT FOR CERTIFICATE -->
+                    <div class="space-y-2 bg-[#0b0e11] p-4 rounded-xl border border-amber-500/30">
+                        <label for="candidate-name" class="block text-[11px] font-bold text-amber-400 uppercase tracking-wider"><i class="fa-solid fa-user-pen mr-1"></i> Enter Your Full Name for Certificate:</label>
+                        <input type="text" id="candidate-name" required placeholder="e.g. Rahul Kumar" class="w-full bg-[#161a1e] border border-gray-700 text-white rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 transition-colors">
+                    </div>
+                    
+                    <div class="text-[10px] bg-blue-500/10 text-cyan-400 px-3 py-1.5 rounded font-black tracking-wider uppercase">Section A: Basic Trading Mechanics (80 Marks)</div>
+
+                    <!-- Questions 1 to 25 -->
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q1: What should the structural market trend look like in order to successfully "Buy Low and Sell High"?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q1" value="correct" class="accent-amber-500"> An uptrend characterized by Higher Highs and Higher Lows</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q1" value="wrong" class="accent-amber-500"> A downtrend where continuous Lower Lows are broken</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q2: How is the price affected when heavy institutional buy orders hit a support level?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q2" value="correct" class="accent-amber-500"> Increased demand raises the probability of price moving upward</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q2" value="wrong" class="accent-amber-500"> Increased supply causes the support level to crash immediately</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q3: What impact does increasing the lot size have on the risk management of open trades?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q3" value="wrong" class="accent-amber-500"> Capital remains safe while trade execution speed becomes super-fast</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q3" value="correct" class="accent-amber-500"> The value per-pip movement increases, making both risk and reward extreme</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q4: What is the primary purpose of setting a Stop Loss (SL)?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q4" value="correct" class="accent-amber-500"> To close the trade at a predefined loss limit and protect the account from being wiped out</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q4" value="wrong" class="accent-amber-500"> To deliver a reward commission to the broker in advance</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q5: If the account balance is $10,000 and the maximum per-trade risk is 1%, what is the allowed loss in dollars?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q5" value="correct" class="accent-amber-500"> Strictly $100 per single trade execution</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q5" value="wrong" class="accent-amber-500"> $1,000 because risk capacity automatically multiplies</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q6: Where should a Take Profit (TP) target ideally be placed?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q6" value="wrong" class="accent-amber-500"> At any high-greed level where a big green candle is visible</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q6" value="correct" class="accent-amber-500"> Slightly before the next strong institutional resistance or key liquidity pool</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q7: What is the biggest disadvantage of managing an account with high leverage?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q7" value="correct" class="accent-amber-500"> Margin is consumed rapidly, and a small adverse move can blow the entire account</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q7" value="wrong" class="accent-amber-500"> Live network lagging issues increase significantly on the trading terminal</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q8: What does a long bottom wick or shadow on a candlestick signify?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q8" value="correct" class="accent-amber-500"> Rejection by sellers and the entry of heavy buying pressure into the market</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q8" value="wrong" class="accent-amber-500"> Continuous heavy breakdown momentum that triggers a short trade activation</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q9: What does the term "Spread" actually mean in a trading interface?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q9" value="correct" class="accent-amber-500"> The difference between the Ask price and Bid price charged by the broker</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q9" value="wrong" class="accent-amber-500"> A predefined execution delay that occurs when a high liquidity order hits</label>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q10: Which risk management tool is perfect for controlling the habit of over-trading?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q10" value="correct" class="accent-amber-500"> Setting a daily maximum loss limit and closing the terminal once targets are achieved</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q10" value="wrong" class="accent-amber-500"> Continuously adding positions to recover losses from previous margin calls</label>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] bg-amber-500/10 text-amber-400 px-3 py-1.5 rounded font-black tracking-wider uppercase mt-4">Section B: Advanced Trendlines & Market Structures (120 Marks)</div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><p class="text-xs font-bold text-gray-300">Q11: What would be the professional strategy at the "3rd Touch" of this Ascending Trendline chart?</p></div>
+                        <div class="trendline-chart flex items-center justify-center">
+                            <svg class="w-full h-full" viewBox="0 0 100 40">
+                                <path d="M 5,35 L 25,23 L 40,26 L 60,13 L 75,17 L 95,5" fill="none" stroke="#4b5563" stroke-width="0.6"/>
+                                <line x1="5" y1="35" x2="95" y2="10" stroke="#f59e0b" stroke-width="0.8" stroke-dasharray="2,2"/>
+                                <circle cx="25" cy="23" r="1.5" fill="#10b981"/>
+                                <circle cx="75" cy="17" r="1.5" fill="#3b82f6"/>
+                                <text x="70" y="26" fill="#3b82f6" font-size="3" font-weight="bold">3rd Touch Support</text>
+                            </svg>
+                        </div>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q11" value="correct" class="accent-amber-500"> Verifying trendline support and looking for a bullish candlestick pattern to execute a Buy trade</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q11" value="wrong" class="accent-amber-500"> Setting up immediate aggressive full-margin short positions without verifying risk metrics</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q12: How many dynamic major touchpoints are required at a minimum to confirm structural validation for a trendline?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q12" value="wrong" class="accent-amber-500"> Validation is confirmed using coordinates from any single candle wick or high point</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q12" value="correct" class="accent-amber-500"> A minimum of 2 major touches are needed to draw the line, and a 3rd touch fully validates it</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><p class="text-xs font-bold text-gray-300">Q13: When does a confirmed clean entry become active in this structural breakdown chart?</p></div>
+                        <div class="trendline-chart">
+                            <svg class="w-full h-full" viewBox="0 0 100 40">
+                                <line x1="5" y1="10" x2="80" y2="35" stroke="#ef4444" stroke-width="0.8" stroke-dasharray="2,2"/>
+                                <path d="M 5,8 L 30,18 L 45,15 L 60,28 L 70,36 L 78,32 L 95,39" fill="none" stroke="#6b7280" stroke-width="0.5"/>
+                                <circle cx="70" cy="36" r="1.5" fill="#ef4444"/>
+                                <text x="50" y="38" fill="#ef4444" font-size="3" font-weight="bold">Candle Body Breakdown</text>
+                            </svg>
+                        </div>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q13" value="correct" class="accent-amber-500"> When a candle body closes below the trendline and retest volume confirms validation</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q13" value="wrong" class="accent-amber-500"> Instantly as the market splits a single touch pip without waiting for a candle closure</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q14: Why do moves often fail (resulting in a fakeout) immediately after a dynamic trendline breakout?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q14" value="correct" class="accent-amber-500"> Heavy institutional volume is absent, leaving retail traders trapped as a source of liquidity</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q14" value="wrong" class="accent-amber-500"> Due to spread coordinates instantly collapsing within the mobile system terminal</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <div class="flex justify-between items-center"><p class="text-xs font-bold text-gray-300">Q15: What is the primary target momentum expected following the breakout zone of the given descending channel?</p></div>
+                        <div class="trendline-chart">
+                            <svg class="w-full h-full" viewBox="0 0 100 40">
+                                <line x1="5" y1="10" x2="80" y2="30" stroke="#f59e0b" stroke-width="0.6"/>
+                                <line x1="5" y1="20" x2="80" y2="40" stroke="#f59e0b" stroke-width="0.6"/>
+                                <path d="M 5,12 L 20,18 L 35,15 L 50,26 L 65,22 L 75,18 L 85,8 L 95,5" fill="none" stroke="#10b981" stroke-width="0.5"/>
+                                <text x="76" y="25" fill="#10b981" font-size="3" font-weight="bold">Bullish Breakout</text>
+                            </svg>
+                        </div>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q15" value="correct" class="accent-amber-500"> The trend reverses completely bullish, and buying pressure is released rapidly</label>
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 cursor-pointer"><input type="radio" name="q15" value="wrong" class="accent-amber-500"> A continuous extreme crash sequence that tests the lower-lows target framework</label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-xs font-bold text-gray-300">Q16: Which trendline holds a higher structural integrity: Higher Timeframes (e.g., 4H, Daily) or Lower Timeframes (e.g., 1M, 5M)?</p>
+                        <div class="space-y-1.5 pl-2">
+                            <label class="flex items-center gap-2 text-[11px] text-gray-400 c
