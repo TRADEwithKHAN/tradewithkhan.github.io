@@ -1,0 +1,172 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect - Trade With Khan</title>
+    <!-- Tailwind CSS For Premium UI -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070a13; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        
+        .social-card {
+            background: #0b0f19;
+            border: 1px solid #1e293b;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .social-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body class="bg-[#070a13] text-[#e2e8f0] antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- TOP HEADER NAVIGATION -->
+    <header class="h-16 border-b border-[#1e293b] bg-[#0b0f19]/80 backdrop-blur sticky top-0 flex items-center justify-between px-6 sm:px-12 z-40">
+        <div class="flex items-center gap-2.5">
+            <a href="Dashboard.html" class="text-gray-400 hover:text-white transition text-sm mr-2"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <div class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></div>
+            <h1 class="font-black text-sm tracking-wider text-white uppercase">TWK HUB</h1>
+        </div>
+        <div class="text-xs bg-blue-500/10 text-blue-400 font-bold px-3 py-1 rounded-md border border-blue-500/20">
+            <i class="fa-solid fa-circle-nodes mr-1"></i> Official Hub
+        </div>
+    </header>
+
+    <!-- MAIN HUB SECTION -->
+    <main class="max-w-4xl mx-auto p-4 sm:p-8 space-y-10 my-auto w-full">
+        
+        <!-- HEADER BLOCK -->
+        <div class="text-center space-y-3 max-w-xl mx-auto">
+            <div class="w-16 h-16 bg-blue-500/10 text-blue-400 rounded-full flex items-center justify-center text-2xl mx-auto border border-blue-500/20 shadow-lg shadow-blue-500/5">
+                <i class="fa-solid fa-share-nodes"></i>
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-black text-white tracking-tight">Connect With Our Ecosystem</h2>
+            <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                When accuracy meets execution, consistency follows naturally. Join our verified channels below to stay connected with true trading mastery.
+            </p>
+        </div>
+
+        <!-- SOCIAL GRID -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5 max-w-2xl mx-auto">
+            
+            <!-- CARD 1: TELEGRAM -->
+            <div class="social-card rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-sky-500/40">
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">Community</div>
+                        <h3 class="text-lg font-bold text-white">Telegram Channel</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-sky-500/10 text-sky-400 rounded-lg flex items-center justify-center text-xl border border-sky-500/20">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">Where action happens. Get instant notifications, analytical logs, and direct structural framework parameters.</p>
+                <div class="flex items-center gap-2 pt-2">
+                    <a href="https://t.me/YOUR_TELEGRAM_LINK" target="_blank" class="flex-1 bg-sky-500 hover:bg-sky-600 text-white text-center text-xs font-bold py-2 rounded-lg transition shadow-md shadow-sky-500/10">Follow Logs</a>
+                    <button onclick="copyHandle('@TradeWithKhanTelegram')" class="px-3 py-2 bg-[#070a13] hover:bg-[#121824] border border-[#1e293b] rounded-lg text-gray-400 hover:text-white transition text-xs"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- CARD 2: YOUTUBE -->
+            <div class="social-card rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-red-500/40">
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono font-bold text-red-400 uppercase tracking-wider">Video Logs</div>
+                        <h3 class="text-lg font-bold text-white">YouTube Channel</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-red-500/10 text-red-400 rounded-lg flex items-center justify-center text-xl border border-red-500/20">
+                        <i class="fa-brands fa-youtube"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">Visual breakdowns of premium calculations, multi-chapter education data, and pure execution logic guides.</p>
+                <div class="flex items-center gap-2 pt-2">
+                    <a href="https://youtube.com/YOUR_YOUTUBE_LINK" target="_blank" class="flex-1 bg-red-500 hover:bg-red-600 text-white text-center text-xs font-bold py-2 rounded-lg transition shadow-md shadow-red-500/10">Subscribe</a>
+                    <button onclick="copyHandle('@TradeWithKhanYouTube')" class="px-3 py-2 bg-[#070a13] hover:bg-[#121824] border border-[#1e293b] rounded-lg text-gray-400 hover:text-white transition text-xs"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- CARD 3: TWITTER / X -->
+            <div class="social-card rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-white/30">
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono font-bold text-gray-400 uppercase tracking-wider">Insights</div>
+                        <h3 class="text-lg font-bold text-white">Twitter / X</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-white/5 text-white rounded-lg flex items-center justify-center text-xl border border-white/10">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">Quick market logs, macro overviews, immediate updates, and instant global announcements.</p>
+                <div class="flex items-center gap-2 pt-2">
+                    <a href="https://x.com/YOUR_TWITTER_LINK" target="_blank" class="flex-1 bg-white hover:bg-gray-200 text-black text-center text-xs font-bold py-2 rounded-lg transition">Follow Flow</a>
+                    <button onclick="copyHandle('@TradeWithKhanX')" class="px-3 py-2 bg-[#070a13] hover:bg-[#121824] border border-[#1e293b] rounded-lg text-gray-400 hover:text-white transition text-xs"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- CARD 4: WHATSAPP -->
+            <div class="social-card rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-emerald-500/40">
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">Direct Alerts</div>
+                        <h3 class="text-lg font-bold text-white">WhatsApp Hub</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-emerald-500/10 text-emerald-400 rounded-lg flex items-center justify-center text-xl border border-emerald-500/20">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">Direct connection alerts and community streams straight to your secure phone logs instantly.</p>
+                <div class="flex items-center gap-2 pt-2">
+                    <a href="https://wa.me/YOUR_WHATSAPP_LINK" target="_blank" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white text-center text-xs font-bold py-2 rounded-lg transition shadow-md shadow-emerald-500/10">Join Network</a>
+                    <button onclick="copyHandle('+91XXXXXXXXXX')" class="px-3 py-2 bg-[#070a13] hover:bg-[#121824] border border-[#1e293b] rounded-lg text-gray-400 hover:text-white transition text-xs"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- CARD 5: INSTAGRAM -->
+            <div class="social-card rounded-xl p-5 flex flex-col justify-between space-y-4 hover:border-pink-500/40 sm:col-span-2 sm:max-w-xs sm:mx-auto sm:w-full">
+                <div class="flex items-start justify-between">
+                    <div class="space-y-1">
+                        <div class="text-xs font-mono font-bold text-pink-400 uppercase tracking-wider">Visual Updates</div>
+                        <h3 class="text-lg font-bold text-white">Instagram Profile</h3>
+                    </div>
+                    <div class="w-10 h-10 bg-pink-500/10 text-pink-400 rounded-lg flex items-center justify-center text-xl border border-pink-500/20">
+                        <i class="fa-brands fa-instagram"></i>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-400 leading-relaxed">Premium layout metrics, structural chart analytics, and sneak peeks of upcoming analytical tools.</p>
+                <div class="flex items-center gap-2 pt-2">
+                    <a href="https://instagram.com/YOUR_INSTAGRAM_LINK" target="_blank" class="flex-1 bg-gradient-to-r from-purple-500 to-pink-500 hover:opacity-90 text-white text-center text-xs font-bold py-2 rounded-lg transition">Follow Flow</a>
+                    <button onclick="copyHandle('@TradeWithKhanInsta')" class="px-3 py-2 bg-[#070a13] hover:bg-[#121824] border border-[#1e293b] rounded-lg text-gray-400 hover:text-white transition text-xs"><i class="fa-regular fa-copy"></i></button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- COMPACT FOOTER SYSTEM -->
+    <footer class="p-6 text-center text-xs text-gray-600 font-mono border-t border-[#1e293b] max-w-4xl mx-auto w-full">
+        <div>Please make sure you are connecting only to the verified official handles.</div>
+        <div class="text-[10px] text-gray-700 mt-1">Copyright @Sarimul Laskar &bull; Trade With Khan Core</div>
+    </footer>
+
+    <!-- HELPER SCRIPT FOR COPY HANDLE -->
+    <script>
+        function copyHandle(handleText) {
+            navigator.clipboard.writeText(handleText).then(() => {
+                alert("📋 Handle copied to clipboard:\n" + handleText);
+            }).catch(err => {
+                console.error('Could not copy handle: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
