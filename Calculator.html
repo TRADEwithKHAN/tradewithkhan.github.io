@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,61 +8,87 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <!-- FontAwesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #070a13; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ef4444; }
+        
+        .panel-card {
+            background: #0b0f19;
+            border: 1px solid #1e293b;
+        }
+    </style>
 </head>
-<body class="bg-[#0b0e11] text-gray-200 font-sans min-h-screen overflow-y-auto py-6 px-4 scrollbar-thin">
+<body class="bg-[#070a13] text-[#e2e8f0] antialiased min-h-screen flex flex-col justify-between py-6 px-4">
 
     <!-- HEADER -->
-    <header class="text-center my-2 flex-shrink-0">
-        <h1 class="text-2xl font-black tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">
-            TRADING CALCULATORS
+    <header class="text-center my-2 flex-shrink-0 space-y-1">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md text-[10px] font-bold tracking-widest uppercase bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> RISK MANAGEMENT ENGINE
+        </div>
+        <h1 class="text-2xl font-black tracking-wider text-white uppercase mt-1">
+            QUANT <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-yellow-500 to-orange-500">CALCULATORS</span>
         </h1>
-        <p class="text-gray-400 text-xs mt-1">Institutional Risk & Money Management Tools</p>
+        <p class="text-gray-400 text-xs max-w-sm mx-auto">Institutional-grade risk mitigation mechanics synchronized for Trade With Khan framework.</p>
     </header>
 
     <!-- CALCULATOR NAVIGATION TABS -->
-    <div class="max-w-xl w-full mx-auto mt-4 bg-[#161a1e] border border-[#2b3139] p-1 rounded-xl flex flex-wrap gap-1 shadow-lg">
-        <button onclick="switchCalc('lot')" id="btn-lot" class="flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-yellow-500 text-black shadow-md">
+    <div class="max-w-xl w-full mx-auto mt-4 bg-[#0b0f19]/90 border border-[#1e293b] p-1 rounded-xl flex flex-wrap gap-1 shadow-2xl backdrop-blur">
+        <button onclick="switchCalc('lot')" id="btn-lot" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 text-black shadow-md">
             Lot Size
         </button>
-        <button onclick="switchCalc('margin')" id="btn-margin" class="flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800/50">
+        <button onclick="switchCalc('margin')" id="btn-margin" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
             Margin
         </button>
-        <button onclick="switchCalc('rr')" id="btn-rr" class="flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800/50">
+        <button onclick="switchCalc('rr')" id="btn-rr" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
             R:R Ratio
         </button>
-        <button onclick="switchCalc('pip')" id="btn-pip" class="flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800/50">
+        <button onclick="switchCalc('pip')" id="btn-pip" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
             Pip Value
+        </button>
+        <button onclick="switchCalc('leverage')" id="btn-leverage" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
+            Exposure
+        </button>
+        <button onclick="switchCalc('compound')" id="btn-compound" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
+            Compounding
+        </button>
+        <button onclick="switchCalc('drawdown')" id="btn-drawdown" class="flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40">
+            Drawdown
         </button>
     </div>
 
     <!-- MAIN HUB PANEL -->
-    <main class="max-w-xl w-full mx-auto my-4 bg-[#161a1e] border border-[#2b3139] rounded-2xl p-5 shadow-2xl">
+    <main class="max-w-xl w-full mx-auto my-4 panel-card rounded-2xl p-5 shadow-2xl relative overflow-hidden">
         
         <!-- 1. LOT SIZE CALCULATOR -->
         <div id="calc-lot" class="calc-box block space-y-4">
-            <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider border-b border-gray-800 pb-2">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
                 <i class="fa-solid fa-calculator mr-1"></i> Position Sizing & Lots
             </h3>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Account Balance ($)</label>
-                    <input type="number" id="lot-balance" value="1000" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="lot-balance" value="1000" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Risk Percentage (%)</label>
-                    <input type="number" id="lot-risk" value="1" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="lot-risk" value="1" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Stop Loss (Pips)</label>
-                    <input type="number" id="lot-sl" value="30" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="lot-sl" value="30" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Standard Pip Value ($)</label>
-                    <input type="number" id="lot-pipval" value="10" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="lot-pipval" value="10" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
             </div>
-            <button onclick="calculateLot()" class="w-full py-2.5 bg-amber-500 text-black font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400">Calculate Lot Size</button>
-            <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 text-center">
+            <button onclick="calculateLot()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Calculate Lot Size</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 text-center">
                 <p class="text-[10px] text-gray-400 uppercase font-bold">Recommended Lot Size</p>
                 <h2 id="res-lot" class="text-xl font-black text-amber-400 mt-0.5">0.03 Lots</h2>
                 <p id="res-lot-risk" class="text-[10px] text-gray-500 font-mono mt-1">Total Risk: $10.00</p>
@@ -71,25 +97,25 @@
 
         <!-- 2. MARGIN CALCULATOR -->
         <div id="calc-margin" class="calc-box hidden space-y-4">
-            <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider border-b border-gray-800 pb-2">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
                 <i class="fa-solid fa-shield-halved mr-1"></i> Margin & Leverage Requirements
             </h3>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Trade Size (Lots)</label>
-                    <input type="number" id="margin-lots" value="0.1" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="margin-lots" value="0.1" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Account Leverage (1:X)</label>
-                    <input type="number" id="margin-lev" value="100" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="margin-lev" value="100" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="col-span-2">
-                    <label class="text-[11px] text-gray-400 block mb-1">Current Asset Price (e.g. Gold or Forex)</label>
-                    <input type="number" id="margin-price" value="2300" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="text-[11px] text-gray-400 block mb-1">Current Asset Price ($)</label>
+                    <input type="number" id="margin-price" value="2300" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
             </div>
-            <button onclick="calculateMargin()" class="w-full py-2.5 bg-amber-500 text-black font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400">Calculate Margin</button>
-            <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 text-center">
+            <button onclick="calculateMargin()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Calculate Margin</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 text-center">
                 <p class="text-[10px] text-gray-400 uppercase font-bold">Required Margin (Blocked Capital)</p>
                 <h2 id="res-margin" class="text-xl font-black text-emerald-400 mt-0.5">$230.00</h2>
             </div>
@@ -97,90 +123,171 @@
 
         <!-- 3. RISK-TO-REWARD CALCULATOR -->
         <div id="calc-rr" class="calc-box hidden space-y-4">
-            <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider border-b border-gray-800 pb-2">
-                <i class="fa-solid fa-arrows-left-right-to-line mr-1"></i> Risk-to-Reward Ratio (R:R)
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
+                <i class="fa-solid fa-arrows-left-right mr-1"></i> Risk-to-Reward Ratio (R:R)
             </h3>
-            <div class="space-y-3">
-                <div class="grid grid-cols-3 gap-2">
-                    <div>
-                        <label class="text-[10px] text-gray-400 block mb-1">Entry Price</label>
-                        <input type="number" id="rr-entry" value="100" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="text-[10px] text-gray-400 block mb-1">Stop Loss (SL)</label>
-                        <input type="number" id="rr-sl" value="95" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="text-[10px] text-gray-400 block mb-1">Take Profit (TP)</label>
-                        <input type="number" id="rr-tp" value="115" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
-                    </div>
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Entry Price</label>
+                    <input type="number" id="rr-entry" value="100" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Stop Loss (SL)</label>
+                    <input type="number" id="rr-sl" value="95" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Take Profit (TP)</label>
+                    <input type="number" id="rr-tp" value="115" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none focus:border-amber-500">
                 </div>
             </div>
-            <button onclick="calculateRR()" class="w-full py-2.5 bg-amber-500 text-black font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400">Analyze Risk Setup</button>
-            <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 flex justify-around items-center text-center">
+            <button onclick="calculateRR()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Analyze Risk Setup</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 flex justify-around items-center text-center">
                 <div>
-                    <p class="text-[9px] text-gray-400 uppercase font-bold">Risk Pips/Points</p>
-                    <h4 id="res-rr-risk" class="text-sm font-bold text-rose-500">5</h4>
+                    <p class="text-[9px] text-gray-500 uppercase font-bold">Risk Units</p>
+                    <h4 id="res-rr-risk" class="text-sm font-bold text-rose-500 mono">5.00</h4>
                 </div>
-                <div class="border-l border-gray-800 h-8"></div>
+                <div class="border-l border-[#1e293b] h-8"></div>
                 <div>
-                    <p class="text-[9px] text-gray-400 uppercase font-bold">Reward Ratio</p>
+                    <p class="text-[9px] text-gray-500 uppercase font-bold">Reward Ratio</p>
                     <h4 id="res-rr-ratio" class="text-base font-black text-amber-400">1 : 3.00</h4>
                 </div>
-                <div class="border-l border-gray-800 h-8"></div>
+                <div class="border-l border-[#1e293b] h-8"></div>
                 <div>
-                    <p class="text-[9px] text-gray-400 uppercase font-bold">Reward Pips/Points</p>
-                    <h4 id="res-rr-reward" class="text-sm font-bold text-emerald-500">15</h4>
+                    <p class="text-[9px] text-gray-500 uppercase font-bold">Target Units</p>
+                    <h4 id="res-rr-reward" class="text-sm font-bold text-emerald-500 mono">15.00</h4>
                 </div>
             </div>
         </div>
 
         <!-- 4. PIP VALUE CALCULATOR -->
         <div id="calc-pip" class="calc-box hidden space-y-4">
-            <h3 class="text-sm font-black text-amber-400 uppercase tracking-wider border-b border-gray-800 pb-2">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
                 <i class="fa-solid fa-money-bill-wave mr-1"></i> Pip Cash Value Converter
             </h3>
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Lots Traded</label>
-                    <input type="number" id="pip-lots" value="1" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="pip-lots" value="1" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div>
                     <label class="text-[11px] text-gray-400 block mb-1">Pips Gained/Lost</label>
-                    <input type="number" id="pip-pips" value="50" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <input type="number" id="pip-pips" value="50" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
                 <div class="col-span-2">
-                    <label class="text-[11px] text-gray-400 block mb-1">Asset Standard Contract Size (e.g. 100000 Forex, 100 Gold)</label>
-                    <input type="number" id="pip-contract" value="100000" class="w-full bg-[#1e2329] border border-[#2b3139] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                    <label class="text-[11px] text-gray-400 block mb-1">Asset Standard Contract Size</label>
+                    <input type="number" id="pip-contract" value="100000" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
                 </div>
             </div>
-            <button onclick="calculatePipValue()" class="w-full py-2.5 bg-amber-500 text-black font-bold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400">Convert to Currency</button>
-            <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-3 text-center">
+            <button onclick="calculatePipValue()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Convert to Currency</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 text-center">
                 <p class="text-[10px] text-gray-400 uppercase font-bold">Total Dollar Value Movement</p>
                 <h2 id="res-pip" class="text-xl font-black text-amber-400 mt-0.5">$500.00</h2>
+            </div>
+        </div>
+
+        <!-- 5. ACCOUNT EXPOSURE CALCULATOR -->
+        <div id="calc-leverage" class="calc-box hidden space-y-4">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
+                <i class="fa-solid fa-crosshairs mr-1"></i> Effective Leverage & Market Exposure
+            </h3>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="text-[11px] text-gray-400 block mb-1">Account Balance ($)</label>
+                    <input type="number" id="exp-balance" value="2000" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="text-[11px] text-gray-400 block mb-1">Total Open Position Size (Lots)</label>
+                    <input type="number" id="exp-lots" value="0.5" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div class="col-span-2">
+                    <label class="text-[11px] text-gray-400 block mb-1">Asset Contract Size (e.g. 100000 Forex, 100 Gold)</label>
+                    <input type="number" id="exp-contract" value="100000" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+                </div>
+            </div>
+            <button onclick="calculateExposure()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Analyze Exposure</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 flex justify-around text-center">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">Total Exposure Notional</p>
+                    <h2 id="res-exp-notional" class="text-base font-black text-amber-400 mt-0.5">$50,000</h2>
+                </div>
+                <div class="border-l border-[#1e293b] h-8"></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">Effective Leverage</p>
+                    <h2 id="res-exp-lev" class="text-base font-black text-rose-400 mt-0.5">1 : 25.00</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. COMPOUNDING MATRIX -->
+        <div id="calc-compound" class="calc-box hidden space-y-4">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
+                <i class="fa-solid fa-chart-line mr-1"></i> Compounding Investment Growth
+            </h3>
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Initial Principal ($)</label>
+                    <input type="number" id="comp-principal" value="1000" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Gain Per Period (%)</label>
+                    <input type="number" id="comp-rate" value="5" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="text-[10px] text-gray-400 block mb-1">Total Periods (Trades/Months)</label>
+                    <input type="number" id="comp-periods" value="12" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-2 py-2 text-xs text-white focus:outline-none">
+                </div>
+            </div>
+            <button onclick="calculateCompounding()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Project Compound Compound</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-3 flex justify-around text-center">
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">Future Capital Balance</p>
+                    <h2 id="res-comp-future" class="text-base font-black text-emerald-400 mt-0.5">$1,795.86</h2>
+                </div>
+                <div class="border-l border-[#1e293b] h-8"></div>
+                <div>
+                    <p class="text-[10px] text-gray-400 uppercase font-bold">Net Yield Gain</p>
+                    <h2 id="res-comp-gain" class="text-base font-black text-amber-400 mt-0.5">+$795.86</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. DRAWDOWN RECOVERY ENGINE -->
+        <div id="calc-drawdown" class="calc-box hidden space-y-4">
+            <h3 class="text-xs font-black text-amber-400 uppercase tracking-wider border-b border-[#1e293b] pb-2">
+                <i class="fa-solid fa-triangle-exclamation mr-1"></i> Drawdown Loss Recovery Model
+            </h3>
+            <div>
+                <label class="text-[11px] text-gray-400 block mb-1">Current Account Drawdown Loss Percentage (%)</label>
+                <input type="number" id="dd-pct" value="20" max="99" class="w-full bg-[#070a13] border border-[#1e293b] rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+            </div>
+            <button onclick="calculateDrawdown()" class="w-full py-2.5 bg-amber-500 text-black font-extrabold rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md hover:bg-amber-400 transition-all">Compute Recovery Vector</button>
+            <div class="bg-[#070a13] border border-[#1e293b] rounded-xl p-4 text-center">
+                <p class="text-[10px] text-gray-400 uppercase font-bold">Required Gain Needed to Break-even</p>
+                <h2 id="res-dd-recovery" class="text-2xl font-black text-rose-400 mt-0.5">25.00 %</h2>
+                <p class="text-[9px] text-gray-500 mt-1">Mathematical reality: Exponential performance required as loss scale depth increases.</p>
             </div>
         </div>
 
     </main>
 
     <!-- FOOTER NAV -->
-    <footer class="w-full max-w-xl mx-auto text-center border-t border-[#2b3139] pt-4 mt-4 flex-shrink-0">
+    <footer class="w-full max-w-xl mx-auto text-center border-t border-[#1e293b] pt-4 mt-2 flex-shrink-0">
         <a href="Dashboard.html" class="inline-flex items-center gap-2 text-xs text-amber-400 hover:underline">
-            <i class="fa-solid fa-arrow-left"></i> Back to Hub Menu
+            <i class="fa-solid fa-arrow-left text-xs"></i> Back to Hub Menu
         </a>
     </footer>
 
     <!-- INTERACTIVE CALCULATION LOGIC ENGINE -->
     <script>
-        // Tab Switch Logic
+        // Tab Switch Styling Synchronization
         function switchTabStyle(activeId) {
-            const tabs = ['lot', 'margin', 'rr', 'pip'];
+            const tabs = ['lot', 'margin', 'rr', 'pip', 'leverage', 'compound', 'drawdown'];
             tabs.forEach(t => {
                 const btn = document.getElementById(`btn-${t}`);
                 if(t === activeId) {
-                    btn.className = "flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer bg-gradient-to-r from-amber-500 to-yellow-500 text-black shadow-md";
+                    btn.className = "flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer bg-gradient-to-br from-amber-500 via-amber-600 to-orange-600 text-black shadow-md";
                 } else {
-                    btn.className = "flex-1 min-w-[100px] py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800/50";
+                    btn.className = "flex-1 min-w-[110px] py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all cursor-pointer text-gray-400 hover:text-white hover:bg-[#1e293b]/40";
                 }
             });
         }
@@ -212,14 +319,11 @@
             const leverage = parseFloat(document.getElementById('margin-lev').value) || 1;
             const price = parseFloat(document.getElementById('margin-price').value) || 0;
 
-            // Assuming standard Forex 1 lot = 100,000 units base contract
             const contractSize = 100000; 
             const totalNotionalValue = lots * contractSize * price;
             const requiredMargin = totalNotionalValue / leverage;
 
-            // Short dynamic scaling adjustments fallback for commodity indices like Gold
             const finalMargin = price > 1000 ? (lots * 100 * price) / leverage : requiredMargin;
-
             document.getElementById('res-margin').innerText = "$" + finalMargin.toFixed(2);
         }
 
@@ -246,11 +350,50 @@
             const pips = parseFloat(document.getElementById('pip-pips').value) || 0;
             const contract = parseFloat(document.getElementById('pip-contract').value) || 100000;
 
-            // Standard fractional pip unit value factor (0.0001 for classic pairs)
             const pipFactor = contract === 100000 ? 0.0001 : 0.01; 
             const totalCashMove = lots * pips * (contract * pipFactor);
 
             document.getElementById('res-pip').innerText = "$" + totalCashMove.toFixed(2);
+        }
+
+        // 5. Account Exposure & Effective Leverage Logic
+        function calculateExposure() {
+            const balance = parseFloat(document.getElementById('exp-balance').value) || 1;
+            const lots = parseFloat(document.getElementById('exp-lots').value) || 0;
+            const contract = parseFloat(document.getElementById('exp-contract').value) || 100000;
+
+            const notionalExposure = lots * contract;
+            const effectiveLev = notionalExposure / balance;
+
+            document.getElementById('res-exp-notional').innerText = "$" + notionalExposure.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            document.getElementById('res-exp-lev').innerText = "1 : " + effectiveLev.toFixed(2);
+        }
+
+        // 6. Account Investment Compounding Engine
+        function calculateCompounding() {
+            const principal = parseFloat(document.getElementById('comp-principal').value) || 0;
+            const rate = parseFloat(document.getElementById('comp-rate').value) || 0;
+            const periods = parseInt(document.getElementById('comp-periods').value) || 0;
+
+            const futureValue = principal * Math.pow((1 + (rate / 100)), periods);
+            const netGain = futureValue - principal;
+
+            document.getElementById('res-comp-future').innerText = "$" + futureValue.toFixed(2);
+            document.getElementById('res-comp-gain').innerText = "+$" + netGain.toFixed(2);
+        }
+
+        // 7. Drawdown Break-Even Recovery Model
+        function calculateDrawdown() {
+            const lossPct = parseFloat(document.getElementById('dd-pct').value) || 0;
+            
+            if(lossPct >= 100 || lossPct <= 0) {
+                document.getElementById('res-dd-recovery').innerText = "N/A";
+                return;
+            }
+
+            // Formula: Recovery % = (Loss % / (100 - Loss %)) * 100
+            const recoveryRequired = (lossPct / (100 - lossPct)) * 100;
+            document.getElementById('res-dd-recovery').innerText = recoveryRequired.toFixed(2) + " %";
         }
     </script>
 </body>
