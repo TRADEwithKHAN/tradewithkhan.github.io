@@ -45,14 +45,24 @@
         <div class="absolute -right-20 -top-20 w-48 h-48 bg-blue-600/10 rounded-full blur-3xl"></div>
         <div class="absolute -left-20 -bottom-20 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
 
-        <!-- Portal Brand Logo & Header -->
-        <div class="text-center mb-8 relative z-10">
-            <div class="inline-flex bg-blue-600/10 text-blue-400 p-3.5 rounded-2xl border border-blue-500/20 mb-3">
-                <i class="fa-solid fa-chart-line-up text-2xl"></i>
-            </div>
-            <h1 class="text-2xl font-bold text-white tracking-wide">TWK Terminal</h1>
-            <p id="auth-subtitle" class="text-xs text-gray-400 mt-1.5">Sign in to access your trading setups and learning portal</p>
-        </div>
+         <!-- Portal Brand Logo & Header -->
+<div class="text-center mb-8 relative z-10">
+    <!-- LOGO IMAGE CONTAINER -->
+    <div class="inline-flex mb-3">
+        <!-- 
+          Niche src="..." ke andar aap apne logo ka naam/link dal sakte hain:
+          Local ke liye: src="logo.png" ya src="assets/logo.jpg"
+          Online ke liye: src="https://example.com/logo.png"
+        -->
+        <img src="logo.png" 
+             alt="TWK Logo" 
+             class="w-16 h-16 object-contain rounded-2xl border border-blue-500/20 bg-blue-600/5 p-1.5 shadow-lg shadow-blue-500/5"
+             onerror="this.onerror=null; this.insertAdjacentHTML('afterend', '<div class=\'w-16 h-16 bg-blue-600/10 text-blue-400 p-4 rounded-2xl border border-blue-500/20 flex items-center justify-center\'><i class=\'fa-solid fa-chart-line\'></i></div>'); this.remove();">
+    </div>
+    <h1 class="text-2xl font-bold text-white tracking-wide">TWK Terminal</h1>
+    <p id="auth-subtitle" class="text-xs text-gray-400 mt-1.5">Sign in to access your trading setups and learning portal</p>
+</div>
+        
 
         <!-- GLOBAL ALERT/FEEDBACK NOTIFICATION ZONE -->
         <div id="auth-notification" class="hidden mb-6 p-4 rounded-xl text-xs font-semibold flex items-start gap-2.5 transition-all duration-300">
