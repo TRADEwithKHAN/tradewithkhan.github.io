@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disclaimer - Trading Risk Warning</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+  <style>
+    body { background-color: #0a0f1c; color: #e2e8f0; }
+    .warning-box { border-left: 6px solid #f59e0b; }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <div class="max-w-4xl mx-auto py-12 px-6">
+    <!-- Header -->
+    <div class="text-center mb-10">
+      <i class="fa-solid fa-triangle-exclamation text-5xl text-amber-400 mb-4"></i>
+      <h1 class="text-4xl font-bold text-white">Important Risk Disclosure</h1>
+      <p class="text-amber-400 mt-2 text-lg">Trading involves significant risk</p>
+    </div>
+
+    <!-- Main Warning -->
+    <div class="bg-[#151f32] border border-amber-400/30 rounded-2xl p-8 warning-box mb-8">
+      <h2 class="text-2xl font-semibold text-amber-400 mb-6 flex items-center gap-3">
+        <i class="fa-solid fa-exclamation-triangle"></i>
+        WARNING
+      </h2>
+      
+      <div class="space-y-6 text-gray-300 leading-relaxed">
+        <p class="text-lg">
+          Trading in financial markets, cryptocurrencies, stocks, forex, or derivatives <strong class="text-red-400">involves substantial risk of loss</strong> and is not suitable for everyone.
+        </p>
+        
+        <ul class="list-disc pl-6 space-y-3 text-sm">
+          <li>You may lose more than your initial investment.</li>
+          <li>Past performance is not indicative of future results.</li>
+          <li>High leverage can significantly amplify both gains and losses.</li>
+          <li>Market volatility, liquidity issues, and geopolitical events can cause rapid losses.</li>
+          <li>Trading should only be done with money you can afford to lose completely.</li>
+        </ul>
+
+        <div class="bg-black/40 p-5 rounded-xl border border-red-500/30">
+          <p class="font-medium text-red-400">This platform is not a financial advisor.</p>
+          <p class="text-sm mt-2">
+            All information provided here is for educational and informational purposes only and does not constitute financial, investment, or trading advice.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acknowledgment -->
+    <div class="bg-[#151f32] rounded-2xl p-6 text-center">
+      <label class="flex items-center justify-center gap-3 cursor-pointer">
+        <input type="checkbox" id="acknowledge" class="w-5 h-5 accent-amber-400">
+        <span class="text-gray-300">
+          I have read and understood the above risk warnings
+        </span>
+      </label>
+      
+      <button onclick="proceed()" 
+              id="proceedBtn"
+              class="mt-6 bg-amber-400 hover:bg-amber-500 transition text-black font-semibold px-10 py-3.5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled>
+        I Accept & Continue
+      </button>
+    </div>
+
+    <p class="text-center text-gray-500 text-xs mt-10">
+      Last Updated: July 2026 | This disclaimer is for informational purposes only.
+    </p>
+  </div>
+
+  <script>
+    const checkbox = document.getElementById('acknowledge');
+    const btn = document.getElementById('proceedBtn');
+
+    checkbox.addEventListener('change', () => {
+      btn.disabled = !checkbox.checked;
+    });
+
+    function proceed() {
+      alert("✅ You have acknowledged the risk warning.");
+      // You can redirect or show main content here
+      // window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>
